@@ -1,3 +1,93 @@
 *{
 	box-sizing: border-box;
 }
+
+.newspaperImage{
+	/*background-color: #3c765f;*/
+	text-align: center;
+}
+
+.grid-section{
+	margin-top:30px;
+}
+
+.grid{
+	width: 90%;
+	margin-right: auto;
+	margin-left:auto;
+}
+
+
+.col-1{
+	width: 24%;
+	border: 1px solid red;
+	margin-right:1%;
+}
+
+.col-2 {
+	width: 75%;
+	/*height : 500px;*/
+	border: 1px solid blue;
+	/*background-color: blue;*/
+	padding : 20px;
+}
+
+.remove-display{
+	display:none;
+}
+
+.search-form-fieldset {
+	border:none;
+}
+
+.search-Category li, .search-sites li{
+	margin-top: 15px;
+	list-style: none;
+	padding-left: 0px;
+	text-align: center;
+	border-bottom: 1px solid red;
+}
+
+.search-Category-ul, .search-sites-ul{
+	padding: 0px;
+}
+
+
+.thumbnailWrapper {
+	position: relative;
+	margin: 5px;
+	float: left;
+	width: 200px;
+	height: 200px;
+}
+
+
+.thumbnails {
+	width: 200px;
+	height: 200px;
+	background-repeat:   no-repeat;
+	background-size:     cover;
+	/*background-position: 50% 50%;*/
+	border-radius:2px;
+	border: 1px solid red;
+}
+
+.img_description {
+	margin:0px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(29, 106, 154, 0.72);
+	color: #fff;
+	visibility: hidden;
+	opacity: 0;
+	/* transition effect. not necessary */
+	transition: opacity .2s, visibility .2s;
+}
+
+.thumbnailWrapper:hover .img_description {
+	visibility: visible;
+	opacity: 1;
+}

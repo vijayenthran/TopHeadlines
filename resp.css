@@ -1,0 +1,53 @@
+*{
+	box-sizing: border-box;
+}
+
+h2{
+	margin-left: 10px;
+}
+
+.grid:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.search-sites-button, .search-Category-button{
+	background:none;
+	border:none;
+	cursor:pointer;
+	font-size :1.5em;
+	text-decoration: none;
+	color:black;
+}
+
+.col-1, .col-2{
+	float:left;
+}
+
+.list-options{
+	display:none;
+}
+
+
+@media screen and (max-width:1150px) {
+	.search-sites-button, .search-Category-button{
+		background:none;
+		border:none;
+		cursor:pointer;
+		font-size :1em;
+	}
+}
+
+@media screen and (max-width:700px) {
+	.search-Category, .search-sites{
+		display:none;
+	}
+	.col-2, .col-1{
+		margin-bottom: 10px;
+		width: 100%;
+	}
+	.list-options{
+		display:block;
+	}
+}

@@ -74,12 +74,30 @@ let headlines = (function () {
 	// 	}
 	// }
 
-	function handleThumbnailDispaly (thumbnailObj) {
-		let element = thumbnailObj.map(obj => 
+// the Hr in this can be replaced using border bottom of list wrapper, Hint
+// You just have to give give margin bottom some value for the image class
+// This created a space in the bottom.
+function handleListDisplay (thumbnailObj) {
+	let element = thumbnailObj.map(obj => 
+		`
+		<div class="list_wrapper">
+		<img src="${obj.urlToImage}" alt="${obj.title}" class= "list_view_image">
+		<p class="list_img_description">
+		${obj.description}
+		</p>
+		<input type="button"  name="View_detail_news" value="View" class="view_detail">
+		</div>
+		`
+		);
+	$('.displayNewsList').append(element);
+}
+
+function handleThumbnailDispaly (thumbnailObj) {
+	let element = thumbnailObj.map(obj => 
 			// ` <p class="thubmnails-description" style="display:none">
 			//  
 			`
-			<div class='thumbnailWrapper'>
+			<div class="thumbnailWrapper">
 			<img src="${obj.urlToImage}" alt="${obj.title}" class= "thumbnails img_img">
 			<p class="img_description">
 			${obj.description}
@@ -87,59 +105,77 @@ let headlines = (function () {
 			</div>
 			`
 			);
-		$('.displayNews').append(element);
-	}
+	$('.displayNewsGrid').append(element);
+}
 
-	
-	function handleSuccess(successObj, optionalParam) {
-		let output = handleLargeSuccessOutput(successObj, optionalParam);
-		console.log(output);
-		handleThumbnailDispaly(output);
+
+function handleSuccess(successObj, optionalParam) {
+	let output = handleLargeSuccessOutput(successObj, optionalParam);
+	console.log(output);
+	handleThumbnailDispaly(output);
+	handleListDisplay(output);
+	return;
+}
+
+function handleFailure (errObj) {
+	console.log('There was an error on the Ajax Call');
+	console.log(errObj);
+	return;
+}
+
+function manipulateConfig(userOption){
+	let copyconfig = Object.assign({}, config);
+	delete copyconfig.data.q;
+	delete copyconfig.data.category;
+	delete copyconfig.data.sources
+	if(userOption.type === 'Search Box'){
+		copyconfig.data.q = userOption.value;
+	} else if(userOption.type === 'category'){
+		copyconfig.data.category = userOption.value;
+	}else if(userOption.type === 'sources'){
+		copyconfig.data.sources = userOption.value;
+	}
+	getHeadlines(copyconfig);
+	return;
+}
+
+function clearThumbnails(){
+	$('.displayNewsGrid').find('.thumbnailWrapper').remove();
+	$('.displayNewsList').find('.list_wrapper').remove();
+	return;
+}
+
+let getHeadlines = function(manipulatedconfig) {
+	clearThumbnails();
+	return $.ajax(manipulatedconfig)
+	.then(function(res){
+		handleSuccess(res, manipulatedconfig);
 		return;
-	}
-
-	function handleFailure (errObj) {
-		console.log('There was an error on the Ajax Call');
-		console.log(errObj);
-		return;
-	}
-
-	function manipulateConfig(userOption){
-		let copyconfig = Object.assign({}, config);
-		delete copyconfig.data.q;
-		delete copyconfig.data.category;
-		delete copyconfig.data.sources
-		if(userOption.type === 'Search Box'){
-			copyconfig.data.q = userOption.value;
-		} else if(userOption.type === 'category'){
-			copyconfig.data.category = userOption.value;
-		}else if(userOption.type === 'sources'){
-			copyconfig.data.sources = userOption.value;
-		}
-		getHeadlines(copyconfig);
-		return;
-	}
-
-	function clearThumbnails(){
-		$('.displayNews').find('.thumbnailWrapper').remove();
-		return;
-	}
-
-	let getHeadlines = function(manipulatedconfig) {
-		clearThumbnails();
-		return $.ajax(manipulatedconfig)
-		.then(function(res){
-			handleSuccess(res, manipulatedconfig);
-			return;
-		})
-		.catch(function(err){
-			handleFailure(err);
-		})
-	};
-	return {
-		sendConfig : manipulateConfig,
-	}
+	})
+	.catch(function(err){
+		handleFailure(err);
+	})
+};
+return {
+	sendConfig : manipulateConfig,
+}
 })();
+
+function handleToggleView() {
+	$('.toggle-Display').on('click', '.view_Grid', function(event){
+		$('.displayNewsGrid').removeClass('remove-display');
+		$('.displayNewsList').addClass('remove-display');
+		$(this).addClass('remove-display');
+		$(this).closest('.toggle-Display').find('.view_List').removeClass('remove-display');
+	});
+	$('.toggle-Display').on('click', '.view_List', function(event){
+		$('.displayNewsGrid').addClass('remove-display');
+		$('.displayNewsList').removeClass('remove-display');
+		$(this).addClass('remove-display');
+		$(this).closest('.toggle-Display').find('.view_Grid').removeClass('remove-display');
+	});
+	return;
+}
 
 function getNewsBySearch() {
 	$('.search-form').submit(function(event){
@@ -246,6 +282,7 @@ function main() {
 	getNewsByCategories();
 	getNewsBySources();
 	getNewsFromDropDown();
+	handleToggleView();
 	return;
 }
 

@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<title>Top Headlines</title>
-	<link rel="stylesheet" type="text/css" href="main.css">
-	<link rel="stylesheet" type="text/css" href="resp.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Top Headlines</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="resp.css">
 </head>
 <body>
-	<main>
-		<section class="newspaperImage">
-			<header><h1>Read Top Headlines</h1></header>
-			<img src="./files/Newspaper.png">
-			<p class="Read-news-Button">
-				<input type="button" name="Click-to-Read-Headlines" value= "Click-to-Read-Headlines" class="Read-news">
-			</p>
-		</section>
-		<section class="grid-section remove-display">
-			<div class="grid">
-				<div class="col-1 select-search-content">
-					<div class="search-type search-Category" data-category="category">
-						<h2>Categories</h2>
-						<ul class="search-Category-ul"></ul>
-					</div>
-					<div class="search-type search-sites" data-sites="sources">
-						<h2>Sources</h2>
-						<ul class="search-sites-ul"></ul>
-					</div>
-					<select class="list-options">
-						<optgroup label="Select an Option" data-Category="category">
-							<option selected="selected">Please choose category or Source</option>
-						</optgroup> 
-						<optgroup label="Categories" class="group1-category" data-category="category">
-						</optgroup> 
-						<optgroup label="Sources" class="group2-sources" data-sites="sources">
-						</optgroup>
-					</select>
-				</div>
-				<div class="col-2 display-search-articles">
-					<form class="search-form">
-						<fieldset class="search-form-fieldset">
-							<legend class="search-form-legend">Enter Search Text</legend>
-							<input type="text" name="search-form-text" class="search-form-text" placeholder="Search Ex:Trump">
-							<input type="Submit" name="search-form-button" class="search-form-button" value="Search">
-						</fieldset>
-					</form>
-					<div class="toggle-Display">
-						<input type="button"  name="toggle" value="Grid-View" class="view_Grid">
-						<input type="button"  name="toggle" value="List-View" class="view_List remove-display">
-					</div>
-					<div class="displayNewsGrid remove-display">		
-					</div>
-					<div class="displayNewsList">				
-					</div>
-				</div>					
-			</div>
-		</section>
-	</main>
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js'></script>
-	<script src="index.js"></script>
+<main>
+    <section class="newspaperImage">
+        <header><h1>Read Top Headlines</h1></header>
+        <img src="./files/Newspaper.png">
+        <div class="read-news-Button">
+            <input type="button" name="Click-to-Read-Headlines" value="Click-to-Read-Headlines" class="read-news">
+        </div>
+    </section>
+    <section class="grid-section remove-display">
+        <section class="grid">
+            <section class="col-1 select-search-content">
+                <div class="search-type search-Category" data-category="category">
+                    <h2>Categories</h2>
+                    <ul class="search-Category-ul"></ul>
+                </div>
+                <div class="search-type search-sites" data-sites="sources">
+                    <h2>Sources</h2>
+                    <ul class="search-sites-ul"></ul>
+                </div>
+                <select class="list-options">
+                    <optgroup label="Select an Option" data-Category="category">
+                        <option selected="selected">Please choose category or Source</option>
+                    </optgroup>
+                    <optgroup label="Categories" class="group1-category" data-category="category">
+                    </optgroup>
+                    <optgroup label="Sources" class="group2-sources" data-sites="sources">
+                    </optgroup>
+                </select>
+            </section>
+            <section class="col-2 display-search-articles">
+                <form class="search-form">
+                    <fieldset class="search-form-fieldset">
+                        <legend class="search-form-legend">Enter Search Text</legend>
+                        <input type="text" name="search-form-text" class="search-form-text"
+                               placeholder="Search Ex:Trump">
+                        <input type="Submit" name="search-form-button" class="search-form-button" value="Search">
+                    </fieldset>
+                </form>
+                <div class="toggle-Display">
+                    <input type="button" name="toggle" value="Thumbnail-View" class="view_Grid">
+                    <input type="button" name="toggle" value="List-View" class="view_List remove-display">
+                </div>
+                <article class="displayNewsGrid remove-display">
+                </article>
+                <article class="displayNewsList">
+                </article>
+            </section>
+        </section>
+    </section>
+</main>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js'></script>
+<script src="index.js"></script>
 </body>
 </html>

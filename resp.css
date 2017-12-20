@@ -12,7 +12,7 @@ h2{
 	clear: both;
 }
 
-.search-sites-button, .search-Category-button{
+.search-sites-link, .search-Category-link{
 	background:none;
 	border:none;
 	cursor:pointer;
@@ -22,7 +22,8 @@ h2{
 }
 
 .col-1, .col-2{
-	float:left;
+	/*float:left;*/
+	display:inline-block;
 }
 
 .list-options{
@@ -31,7 +32,7 @@ h2{
 
 
 @media screen and (max-width:1150px) {
-	.search-sites-button, .search-Category-button{
+	.search-sites-link, .search-Category-link{
 		background:none;
 		border:none;
 		cursor:pointer;

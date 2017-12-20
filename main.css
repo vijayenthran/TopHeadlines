@@ -3,7 +3,6 @@
 }
 
 .newspaperImage{
-	/*background-color: #3c765f;*/
 	text-align: center;
 }
 
@@ -21,15 +20,12 @@
 .col-1{
 	width: 24%;
 	border: 1px solid red;
-	margin-right:1%;
 }
 
 .col-2 {
 	width: 75%;
-	/*height : 500px;*/
 	border: 1px solid blue;
-	/*background-color: blue;*/
-	padding : 20px;
+	vertical-align: top;
 }
 
 .remove-display{
@@ -52,6 +48,9 @@
 	padding: 0px;
 }
 
+.search-sites li:last-child{
+	border: 0px;
+}
 
 .thumbnailWrapper {
 	position: relative;
@@ -66,8 +65,8 @@
 }
 
 .thumbnails {
-	width: 200px;
-	height: 200px;
+	/*width: 200px;*/
+	/*height: 200px;*/
 	background-repeat:   no-repeat;
 	background-size:     cover;
 	border-radius:5px;
@@ -87,6 +86,7 @@
 	opacity: 0;
 	/* transition effect. not necessary */
 	transition: opacity .2s, visibility .2s;
+	cursor: pointer;
 }
 
 .thumbnailWrapper:hover .img_description {
@@ -108,7 +108,7 @@
 
 .list_view_image{
 	width: 100px;
-	height: 100px;
+	height: auto;
 	background-repeat:   no-repeat;
 	background-size:     cover;
 	border-radius: 5px;
@@ -130,3 +130,21 @@
 	clear: both;
 }
 
+.displayNewsGrid{
+	text-align: center;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.toggle-Display, .search-form{
+	width: 95%;
+}
+
+.view_Grid, .view_List, .view_detail{
+	cursor:pointer
+}
+
+.view_detail{
+	margin-bottom: 5px;
+}

@@ -32,7 +32,7 @@
 	display:none;
 }
 
-.search-form-fieldset {
+.search-form-fieldset, .pop_up_form_fieldset {
 	border:none;
 }
 
@@ -53,8 +53,10 @@
 }
 
 .thumbnailWrapper {
+	width:200px;
+	height:200px;
 	position: relative;
-	margin: 5px;
+	margin: 10px;
 	float: left;
 }
 
@@ -67,6 +69,7 @@
 .thumbnails {
 	/*width: 200px;*/
 	/*height: 200px;*/
+	width:100%;
 	background-repeat:   no-repeat;
 	background-size:     cover;
 	border-radius:5px;
@@ -131,6 +134,7 @@
 }
 
 .displayNewsGrid{
+	padding: 20px;
 	text-align: center;
 	width: 90%;
 	margin-left: auto;
@@ -147,4 +151,43 @@
 
 .view_detail{
 	margin-bottom: 5px;
+}
+
+.outer_Overlay{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index: 1;
+	background:rgba(0,0,0,0.5);
+	padding-top: 300px;
+}
+
+.pop_up{
+	width: 35%;
+	/*height: 200px;*/
+	background-color: white;
+	border-radius: 2px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+}
+
+.close_popup{
+	font-size: 28px;
+	font-weight: bold;
+	/*border: 1px solid blue;*/
+	float : right;
+	margin: 2px;
+	color: gray;
+}
+
+.close_popup:hover{
+	color: black;
+	cursor: pointer;
+}
+
+.pop_up_text{
+	clear:right;
 }

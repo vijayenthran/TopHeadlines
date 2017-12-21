@@ -32,7 +32,7 @@
 	display:none;
 }
 
-.search-form-fieldset, .pop_up_form_fieldset {
+.search-form-fieldset{
 	border:none;
 }
 
@@ -145,7 +145,7 @@
 	width: 95%;
 }
 
-.view_Grid, .view_List, .view_detail{
+.view_Grid, .view_List, .view_detail, .default_view{
 	cursor:pointer
 }
 
@@ -161,7 +161,7 @@
 	height:100%;
 	z-index: 1;
 	background:rgba(0,0,0,0.5);
-	padding-top: 300px;
+	padding-top: 200px;
 }
 
 .pop_up{

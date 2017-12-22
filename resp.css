@@ -31,12 +31,29 @@ h2{
 }
 
 
+/*@media screen and (min-width:1150px) {
+	.search-sites-link, .search-Category-link{
+		background:none;
+		border:none;
+		cursor:pointer;
+		font-size :1em;
+	}
+}
+
+*/
 @media screen and (max-width:1150px) {
 	.search-sites-link, .search-Category-link{
 		background:none;
 		border:none;
 		cursor:pointer;
 		font-size :1em;
+	}
+}
+
+@media screen and (max-width:900px) {
+	.main_img{
+		width: 100%;
+		height: auto;
 	}
 }
 

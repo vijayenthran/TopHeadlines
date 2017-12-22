@@ -168,45 +168,45 @@ return {
 }
 })();
 
-let getContentfromOtherSrc = function () {
-    const config = {
-        url: "http://www.espn.com/nba/story/_/id/21832012/kevin-pelton-ranking-superstar-hall-fame-candidates-nba.html body",
-};
-    $('.abc').load(config.url , function (data) {
-    	console.log('$$$$$$');
-    	// let val = $(data).find('body');
-        console.log(data);
-    });
-};
+// let getContentfromOtherSrc = function () {
+//     const config = {
+//         url: "http://www.espn.com/nba/story/_/id/21832012/kevin-pelton-ranking-superstar-hall-fame-candidates-nba.html body",
+// };
+//     $('.abc').load(config.url , function (data) {
+//     	console.log('$$$$$$');
+//     	// let val = $(data).find('body');
+//         console.log(data);
+//     });
+// };
 
 function changeCurrentView(val){
-    getContentfromOtherSrc();
+	// getContentfromOtherSrc();
 	let defaultViewValue;
 	if(!val){
 		return;
 	}else if(val === 'List'){
-        $('.displayNewsGrid').addClass('remove-display');
-        $('.displayNewsList').removeClass('remove-display');
-        defaultViewValue = `${val} View-Click to change`;
-        $('.default_view').val(defaultViewValue);
-        $('.view_Grid').addClass('remove-display');
-        $('.view_List').addClass('remove-display');
+		$('.displayNewsGrid').addClass('remove-display');
+		$('.displayNewsList').removeClass('remove-display');
+		defaultViewValue = `${val} View-Click to change`;
+		$('.default_view').val(defaultViewValue);
+		$('.view_Grid').addClass('remove-display');
+		$('.view_List').addClass('remove-display');
 
 	}else if(val === 'Thumbnail'){
-        $('.displayNewsGrid').removeClass('remove-display');
-        $('.displayNewsList').addClass('remove-display');
-        defaultViewValue = `${val} View-Click to change`;
-        $('.default_view').val(defaultViewValue);
-        $('.view_Grid').addClass('remove-display');
-        $('.view_List').addClass('remove-display');
+		$('.displayNewsGrid').removeClass('remove-display');
+		$('.displayNewsList').addClass('remove-display');
+		defaultViewValue = `${val} View-Click to change`;
+		$('.default_view').val(defaultViewValue);
+		$('.view_Grid').addClass('remove-display');
+		$('.view_List').addClass('remove-display');
 
-    }else if(val === 'Default'){
-        $('.displayNewsGrid').addClass('remove-display');
-        $('.displayNewsList').removeClass('remove-display');
-        $('.view_Grid').removeClass('remove-display');
-        $('.view_List').addClass('remove-display');
-        $('.default_view').val('ChooseDefaultView');
-        handleToggleView();
+	}else if(val === 'Default'){
+		$('.displayNewsGrid').addClass('remove-display');
+		$('.displayNewsList').removeClass('remove-display');
+		$('.view_Grid').removeClass('remove-display');
+		$('.view_List').addClass('remove-display');
+		$('.default_view').val('ChooseDefaultView');
+		handleToggleView();
 	}
 }
 
@@ -214,42 +214,42 @@ function setLocalStorage(localStorageVal){
 	if(!localStorageVal){
 		return;
 	}
-    localStorage.setItem('View', `${localStorageVal}`);
-    $('.view_Grid').addClass('remove-display');
-    let getLocalStorageVal= getLocalStorage('View');
-    changeCurrentView(getLocalStorageVal);
-    return;
+	localStorage.setItem('View', `${localStorageVal}`);
+	$('.view_Grid').addClass('remove-display');
+	let getLocalStorageVal= getLocalStorage('View');
+	changeCurrentView(getLocalStorageVal);
+	return;
 }
 
 function getLocalStorage(storageKey){
 	if(!storageKey){
 		return;
 	}
-    return localStorage.getItem(storageKey);
+	return localStorage.getItem(storageKey);
 }
 
 function removeLocalStorage(localStorageVal){
-    if(!localStorageVal){
-        return;
-    }
-    localStorage.removeItem('View');
-    return;
+	if(!localStorageVal){
+		return;
+	}
+	localStorage.removeItem('View');
+	return;
 }
 
 function handleShowDefault(){
- $('.pop_up_form').submit(function(event){
- 	event.preventDefault();
-     let selectedRadio = $('input[name="view"]:checked').val();
-     if(selectedRadio === 'List' || selectedRadio === 'Thumbnail'){
-         setLocalStorage(selectedRadio);
-	 }
-	 else{
-         removeLocalStorage(selectedRadio);
-         changeCurrentView(selectedRadio);
-	 }
-     $('.outer_Overlay').addClass('remove-display')
- });
-    return;
+	$('.pop_up_form').submit(function(event){
+		event.preventDefault();
+		let selectedRadio = $('input[name="view"]:checked').val();
+		if(selectedRadio === 'List' || selectedRadio === 'Thumbnail'){
+			setLocalStorage(selectedRadio);
+		}
+		else{
+			removeLocalStorage(selectedRadio);
+			changeCurrentView(selectedRadio);
+		}
+		$('.outer_Overlay').addClass('remove-display')
+	});
+	return;
 }
 
 function closePopUp(){
@@ -264,7 +264,7 @@ function chooseDefaultView(){
 		$('.outer_Overlay').removeClass('remove-display');
 	});
 	closePopUp();
-    handleShowDefault();
+	handleShowDefault();
 	return;
 }
 
@@ -282,25 +282,25 @@ function openLinkNewTab(){
 
 function handleToggleView() {
 	if(!getLocalStorage('View')) {
-        $('.toggle-Display').on('click', '.view_Grid', function () {
-            $('.displayNewsGrid').removeClass('remove-display');
-            $('.displayNewsList').addClass('remove-display');
-            $(this).addClass('remove-display');
-            $(this).closest('.toggle-Display').find('.view_List').removeClass('remove-display');
-        });
-        $('.toggle-Display').on('click', '.view_List', function (event) {
-            $('.displayNewsGrid').addClass('remove-display');
-            $('.displayNewsList').removeClass('remove-display');
-            $(this).addClass('remove-display');
-            $(this).closest('.toggle-Display').find('.view_Grid').removeClass('remove-display');
-        });
-        return;
-    }else{
-        $('.view_Grid').addClass('remove-display');
-        let getLocalStorageVal= getLocalStorage('View');
-        changeCurrentView(getLocalStorageVal);
+		$('.toggle-Display').on('click', '.view_Grid', function () {
+			$('.displayNewsGrid').removeClass('remove-display');
+			$('.displayNewsList').addClass('remove-display');
+			$(this).addClass('remove-display');
+			$(this).closest('.toggle-Display').find('.view_List').removeClass('remove-display');
+		});
+		$('.toggle-Display').on('click', '.view_List', function (event) {
+			$('.displayNewsGrid').addClass('remove-display');
+			$('.displayNewsList').removeClass('remove-display');
+			$(this).addClass('remove-display');
+			$(this).closest('.toggle-Display').find('.view_Grid').removeClass('remove-display');
+		});
+		return;
+	}else{
+		$('.view_Grid').addClass('remove-display');
+		let getLocalStorageVal= getLocalStorage('View');
+		changeCurrentView(getLocalStorageVal);
 	}
-    return;
+	return;
 }
 
 function getNewsBySearch() {

@@ -1,22 +1,18 @@
 'use strict';
 
 const Categories = ['business', 'gaming', 'health-and-medical', 'music', 'sport', 'technology'];
-const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today'];
-const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click to View Source Button" in List View`;
+const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today', 'crypto-coins-news', 'football-italia', 'four-four-two', 'hacker-news', 'msnbc', 'nhl-news', 'reuters', 'the-economist', 'polygon', 'national-geographic', 'mtv-news'];
+const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click to View From Source Button" in List View`;
+const filterTopNewsNum = 100;
 
 let headlines = (function () {
 	const config = {
 		url: 'https://newsapi.org/v2/top-headlines',
 		data: {
 			apikey: '93c6b412948740479094f9ace7c8aa27'
-            // format:"jsonp",
-            // callback:"jsonp_callback"
-        },
-        method: 'GET'
-        // dataType: "jsonp",
-        // jsonpCallback: 'jsonp_callback',
-        // contentType: 'application/json',
-    };
+		},
+		method: 'GET'
+	};
 
     // Filter BBC because it does not allow to download images during Search
     function removeBBCSportNews(toFilterBBC) {
@@ -29,8 +25,13 @@ let headlines = (function () {
     			return article;
     		}
     	})
-    	.filter((item, index) => (index <= 40));
+    	.filter((item, index) => (index <= filterTopNewsNum));
     	return manipulatedOutput;
+    }
+
+    function handleNoResults(){
+    	$('.no_headlines').removeClass('remove-display');
+    	return;
     }
 
     function handleLargeSuccessOutput(successOutput, optionalParam) {
@@ -38,6 +39,9 @@ let headlines = (function () {
     		return removeBBCSportNews(successOutput);
     	}
     	let output = successOutput;
+    	if(output.totalResults === 0){
+    		handleNoResults();
+    	}
     	let manipulatedOutput;
     	if (output.totalResults > 40) {
     		manipulatedOutput = output.articles
@@ -67,154 +71,133 @@ let headlines = (function () {
     	return manipulatedOutput;
     }
 
-    // function handleRetrivingInfo(retriveImgObj) {
-    // 	let imageURL = return retriveImgObj.filter(obj => obj.urlToImage);
-    // 	let linkURL = return retriveImgObj.filter(obj => obj.url);
-    // 	let title   = return retriveImgObj.filter(obj => obj.title);
-    // 	let description =  return retriveImgObj.filter(obj => obj.description);
-    // 	return {
-    // 		_imgURL  : imageURL,
-    // 		_linkURL : linkURL,
-    // 		_title : title,
-    // 		_description : description
-    // 	}
-    // }
+    function handleListDisplay(thumbnailObj) {
+    	let element = thumbnailObj.map(obj =>
+    		`
+    		<div class="list_wrapper">
+    		<img src="${obj.urlToImage}" alt="${obj.title}" class= "list_view_image" />
+    		<p class="list_img_description">
+    		'${obj.description}'
+    		</p>
+    		<a target="_blank" href="${obj.url}">
+    		<input type="button"  name="View_detail_news" value="CLick to View From Source" class="view_detail" />
+    		</a>
+    		</div>
+    		`
+    		);
+    	$('.displayNewsList').append(element);
+    }
 
-// the Hr in this can be replaced using border bottom of list wrapper, Hint
-// You just have to give give margin bottom some value for the image class
-// This created a space in the bottom.
-function handleListDisplay(thumbnailObj) {
-	let element = thumbnailObj.map(obj =>
-		`
-		<div class="list_wrapper">
-		<img src="${obj.urlToImage}" alt="${obj.title}" class= "list_view_image">
-		<p class="list_img_description">
-		${obj.description}
-		</p>
-		<a target="_blank" href="${obj.url}">
-		<input type="button"  name="View_detail_news" value="CLick to View From Source" class="view_detail">
-		</a>
-		</div>
-		`
-		);
-	$('.displayNewsList').append(element);
-}
+    function handleThumbnailDispaly(thumbnailObj) {
+    	let element = thumbnailObj.map(obj =>
+    		`
+    		<div class="thumbnailWrapper">
+    		<img src="${obj.urlToImage}" alt="${obj.title}" class= "thumbnails img_img" data-source="${obj.url}">
+    		<p class="img_description">
+    		${obj.description}
+    		</p>
+    		</div>
+    		`
+    		);
+    	$('.displayNewsGrid').append(element);
+    	return;
+    }
 
-function handleThumbnailDispaly(thumbnailObj) {
-	let element = thumbnailObj.map(obj =>
-            // ` <p class="thubmnails-description" style="display:none">
-            //			<a target="_blank" href="${obj.url}"><input type="button"  name="View_detail_news" value="Source-Site" class="view_detail"></a>
+    function handleSuccess(successObj, optionalParam) {
+    	let output = handleLargeSuccessOutput(successObj, optionalParam);
+    	handleThumbnailDispaly(output);
+    	handleListDisplay(output);
+    	return;
+    }
 
-            `
-            <div class="thumbnailWrapper">
-            <img src="${obj.urlToImage}" alt="${obj.title}" class= "thumbnails img_img" data-source="${obj.url}">
-            <p class="img_description">
-            ${obj.description}
-            </p>
-            </div>
-            `
-            );
-	$('.displayNewsGrid').append(element);
-}
+    function handleFailure(errObj) {
+    	console.log('There was an error on the Ajax Call');
+    	console.log(errObj);
+    	throw 'errObj';
+    }
 
-function handleSuccess(successObj, optionalParam) {
-	let output = handleLargeSuccessOutput(successObj, optionalParam);
-	handleThumbnailDispaly(output);
-	handleListDisplay(output);
-	return;
-}
+    function manipulateConfig(userOption) {
+    	let copyconfig = Object.assign({}, config);
+    	delete copyconfig.data.q;
+    	delete copyconfig.data.category;
+    	delete copyconfig.data.sources;
+    	if (userOption.type === 'Search Box') {
+    		copyconfig.data.q = userOption.value;
+    	} else if (userOption.type === 'category') {
+    		copyconfig.data.category = userOption.value;
+    	} else if (userOption.type === 'sources') {
+    		copyconfig.data.sources = userOption.value;
+    	} else if(userOption.type === 'default'){
+    		copyconfig.data.q = userOption.value;
+    	}
+    	getHeadlines(copyconfig);
+    	return;
+    }
 
-function handleFailure(errObj) {
-	console.log('There was an error on the Ajax Call');
-	console.log(errObj);
-	return;
-}
+    function cleanUp() {
+    	$('.displayNewsGrid').find('.thumbnailWrapper').remove();
+    	$('.displayNewsList').find('.list_wrapper').remove();
+    	$('.no_headlines').addClass('remove-display');
+    	return;
+    }
 
-function manipulateConfig(userOption) {
-	let copyconfig = Object.assign({}, config);
-	delete copyconfig.data.q;
-	delete copyconfig.data.category;
-	delete copyconfig.data.sources;
-	if (userOption.type === 'Search Box') {
-		copyconfig.data.q = userOption.value;
-	} else if (userOption.type === 'category') {
-		copyconfig.data.category = userOption.value;
-	} else if (userOption.type === 'sources') {
-		copyconfig.data.sources = userOption.value;
-	}
-	getHeadlines(copyconfig);
-	return;
-}
-
-function clearThumbnails() {
-	$('.displayNewsGrid').find('.thumbnailWrapper').remove();
-	$('.displayNewsList').find('.list_wrapper').remove();
-	return;
-}
-
-let getHeadlines = function (manipulatedconfig) {
-	clearThumbnails();
-	return $.ajax(manipulatedconfig)
-	.then(function (res) {
-		handleSuccess(res, manipulatedconfig);
-		return;
-	})
-	.catch(function (err) {
-		handleFailure(err);
-	})
-};
-return {
-	sendConfig: manipulateConfig,
-}
+    let getHeadlines = function (manipulatedconfig) {
+    	cleanUp();
+    	return $.ajax(manipulatedconfig)
+    	.then(function (res) {
+    		handleSuccess(res, manipulatedconfig);
+    		return;
+    	})
+    	.catch(function (err) {
+    		handleFailure(err);
+    	})
+    };
+    return {
+    	sendConfig: manipulateConfig,
+    }
 })();
 
-// let getContentfromOtherSrc = function () {
-//     const config = {
-//         url: "http://www.espn.com/nba/story/_/id/21832012/kevin-pelton-ranking-superstar-hall-fame-candidates-nba.html body",
-// };
-//     $('.abc').load(config.url , function (data) {
-//     	console.log('$$$$$$');
-//     	// let val = $(data).find('body');
-//         console.log(data);
-//     });
-// };
-
 function changeCurrentView(val){
-	// getContentfromOtherSrc();
-	let defaultViewValue;
 	if(!val){
-		return;
-	}else if(val === 'List'){
+		throw new Error('val not found');
+	}else if(val === '1'){
 		$('.displayNewsGrid').addClass('remove-display');
 		$('.displayNewsList').removeClass('remove-display');
-		defaultViewValue = `${val} View-Click to change`;
-		$('.default_view').val(defaultViewValue);
+		$('.default_view').val(`List-View Click to change`);
 		$('.view_Grid').addClass('remove-display');
 		$('.view_List').addClass('remove-display');
-
-	}else if(val === 'Thumbnail'){
+		return;
+	}else if(val === '2'){
 		$('.displayNewsGrid').removeClass('remove-display');
 		$('.displayNewsList').addClass('remove-display');
-		defaultViewValue = `${val} View-Click to change`;
-		$('.default_view').val(defaultViewValue);
+		$('.default_view').val(`Thumbnail-View Click to change`);
 		$('.view_Grid').addClass('remove-display');
 		$('.view_List').addClass('remove-display');
-
-	}else if(val === 'Default'){
+		return;
+	}else if(val === '3'){
 		$('.displayNewsGrid').addClass('remove-display');
 		$('.displayNewsList').removeClass('remove-display');
 		$('.view_Grid').removeClass('remove-display');
 		$('.view_List').addClass('remove-display');
 		$('.default_view').val('ChooseDefaultView');
 		handleToggleView();
+		return;
 	}
 }
 
 function setLocalStorage(localStorageVal){
+	let toggleSwitchVal;
 	if(!localStorageVal){
-		return;
+		throw new Error('localStorageVal not found');
 	}
-	localStorage.setItem('View', `${localStorageVal}`);
+	if(localStorageVal === 'List'){
+		toggleSwitchVal = 1;
+	} else if(localStorageVal === 'Thumbnail'){
+		toggleSwitchVal = 2;
+	} else if(localStorageVal === 'Default'){
+		toggleSwitchVal = 3;
+	}
+	localStorage.setItem('View', toggleSwitchVal);
 	$('.view_Grid').addClass('remove-display');
 	let getLocalStorageVal= getLocalStorage('View');
 	changeCurrentView(getLocalStorageVal);
@@ -223,14 +206,14 @@ function setLocalStorage(localStorageVal){
 
 function getLocalStorage(storageKey){
 	if(!storageKey){
-		return;
+		throw new Error('storageKey not found');
 	}
 	return localStorage.getItem(storageKey);
 }
 
 function removeLocalStorage(localStorageVal){
 	if(!localStorageVal){
-		return;
+		throw new Error('localStorageVal not found');
 	}
 	localStorage.removeItem('View');
 	return;
@@ -244,8 +227,9 @@ function handleShowDefault(){
 			setLocalStorage(selectedRadio);
 		}
 		else{
+			let defaultToggleSwitch = '3';
 			removeLocalStorage(selectedRadio);
-			changeCurrentView(selectedRadio);
+			changeCurrentView(defaultToggleSwitch);
 		}
 		$('.outer_Overlay').addClass('remove-display')
 	});
@@ -274,7 +258,6 @@ function openLinkNewTab(){
 		event.preventDefault();
 		event.stopPropagation();
 		let url = $(this).closest('.displayNewsGrid').find('.img_img').data('source');
-		console.log('I am url' + url);
 		window.open(url, '_blank');
 	});
 }
@@ -299,13 +282,12 @@ function handleToggleView() {
 		$('.view_Grid').addClass('remove-display');
 		let getLocalStorageVal= getLocalStorage('View');
 		changeCurrentView(getLocalStorageVal);
+		return;
 	}
-	return;
 }
 
 function getNewsBySearch() {
 	$('.search-form').submit(function (event) {
-		console.log('I am being called');
 		event.preventDefault();
 		let inputVal = $('.search-form-text').val();
 		let value = {
@@ -318,9 +300,9 @@ function getNewsBySearch() {
 }
 
 function getNewsByCategories() {
-	$('.search-Category-ul').on('click', '.search-Category-link', function (event) {
+	$('.categories_ul').on('click', '.search-Category-link', function (event) {
 		event.preventDefault();
-		let endPoint = $('.search-Category').data('category');
+		let endPoint = $('.categories_ul').data('category');
 		let inputValue = $(this).text();
 		let categoryObj = {
 			type: endPoint,
@@ -351,9 +333,9 @@ function getNewsFromDropDown() {
 }
 
 function getNewsBySources() {
-	$('.search-sites-ul').on('click', '.search-sites-link', function (event) {
+	$('.source_ul').on('click', '.search-sites-link', function (event) {
 		event.preventDefault();
-		let endPoint = $('.search-sites').data('sites');
+		let endPoint = $('.source_ul').data('sites');
 		let inputValue = $(this).text();
 		let sourceObj = {
 			type: endPoint,
@@ -375,9 +357,10 @@ function generateCategories() {
 	let elementList = Categories.map(category => {
 		return `<option class="group1-category-option">${category}</option>`
 	});
-	$('.search-Category-ul').append(element);
+	$('.categories_ul').append(element);
 	$('.group1-category').append(elementList);
 	counter = 0;
+	return;
 }
 
 function generateSources() {
@@ -391,16 +374,33 @@ function generateSources() {
 	let elementList = Sources.map(source => {
 		return `<option class="group2-sources-option">${source}</option>`
 	});
-	$('.search-sites-ul').append(element);
+	$('.source_ul').append(element);
 	$('.group2-sources').append(elementList);
 	counter = 0;
+	return;
 }
 
 function readNewsClick() {
+	const defaultNewsObj= {
+		type : 'default',
+		value: 'trump'
+	}
 	$('.read-news').on('click', function () {
 		$(this).closest('.newspaperImage').slideUp();
-		$('.grid-section').removeClass('remove-display')
+		$('.grid-section').removeClass('remove-display');
+		headlines.sendConfig(defaultNewsObj);
 	});
+	return;
+}
+
+function handleShowUl(){
+	$('.menu_categories_title').on('click', function(){
+		$('.categories_ul').slideToggle('fast');
+	});
+	$('.menu_Sources_title').on('click', function(){
+		$('.source_ul').slideToggle('fast');
+	});
+	return;
 }
 
 function main() {
@@ -414,6 +414,7 @@ function main() {
 	handleToggleView();
 	openLinkNewTab();
 	chooseDefaultView();
+	handleShowUl();
 	return;
 }
 

@@ -6,7 +6,7 @@
 	<title>Top Headlines</title>
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="stylesheet" type="text/css" href="resp.css">
-	<link href="https://fonts.googleapis.com/css?family=Amiri|Courgette|Crimson+Text|Dancing+Script|Gurajada|Merriweather|Noto+Serif|Pacifico|Quattrocento|Taviraj" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Amiri|Courgette|Crimson+Text|Dancing+Script|Gurajada|Merriweather|Noto+Serif|Raleway:400,200|Pacifico|Quattrocento|Taviraj" rel="stylesheet">
 </head>
 <body>
 	<main>
@@ -16,20 +16,27 @@
 			<div class="read-news-Button">
 				<input type="button" name="Click-to-Read-Headlines" value="Click to Read" class="read-news">
 			</div>
-			<!-- <div class="abc"></div> -->
 		</section>
 		<section class="grid-section remove-display">
 			<section class="grid">
 				<section class="col-1 select-search-content">
-					<div class="search-type search-Category" data-category="category">
-						<h2>Categories</h2>
-						<ul class="search-Category-ul"></ul>
-					</div>
-					<div class="search-type search-sites" data-sites="sources">
-						<h2>Sources</h2>
-						<ul class="search-sites-ul"></ul>
-					</div>
-					<select class="list-options">
+					<aside class="menu">
+						<ul>
+							<li class="title">Menu</li>
+							<li class="menu_categories">
+								<li class="title menu_categories_title">Categories
+								</li>
+								<ul class="categories_ul" data-category="category">
+								</ul>
+							</li>
+							<li class="menu_Sources">
+								<li class="title menu_Sources_title">Sources</li>
+								<ul class="source_ul" data-sites="sources">
+								</ul>
+							</li>
+						</ul>
+					</aside>
+					<select class="list-options remove-display">
 						<optgroup label="Select an Option" data-Category="category">
 							<option selected="selected">Please choose category or Source</option>
 						</optgroup>
@@ -42,7 +49,7 @@
 				<section class="col-2 display-search-articles">
 					<form class="search-form">
 						<fieldset class="search-form-fieldset">
-							<legend class="search-form-legend">Enter Search Text</legend>
+							<legend class="search-form-legend">Enter a Search Text</legend>
 							<input type="text" name="search-form-text" class="search-form-text"
 							placeholder="Search Ex:Trump">
 							<input type="Submit" name="search-form-button" class="search-form-button" value="Search">
@@ -53,6 +60,9 @@
 						<input type="button" name="toggle" value="Thumbnail-View" class="view_Grid">
 						<input type="button" name="toggle" value="List-View" class="view_List remove-display">
 					</div>
+					<article class="no_headlines remove-display">
+						<p>Sorry, There are no Search Results, Please try Different Search</p>
+					</article>
 					<article class="displayNewsGrid remove-display">
 					</article>
 					<article class="displayNewsList">
@@ -61,7 +71,7 @@
 				<section class='outer_Overlay remove-display'>
 					<section class='pop_up'>
 						<div class="close_popup">&times;</div>
-						<p class="pop_up_text">Did you Try both Views?, If not, Please try both views, Before Seclting the default View, Dont worry you can reset this anytime</p>
+						<p class="pop_up_text">Did you Try both Views?, If not, Please try both views, Before Selecting the default View, Dont worry you can reset this anytime</p>
 						<form class="pop_up_form">
 							<fieldset class="pop_up_form_fieldset">
 								<legend>
@@ -79,7 +89,7 @@
 									<input type="radio" class="pop_up_form_checkbox" name="view" id="choice-2" value="Default"/>
 									<label for="choice-2" class="pop_up_form_label">Reset Default View,Toggle Between Views</label>
 								</p>
-								<p>
+								<p class="pop_up_form_btn">
 									<input type="Submit" name="pop_up_form_submit" class="pop_up_form_submit" value="Okay">
 								</p>
 							</fieldset>

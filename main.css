@@ -10,7 +10,7 @@
 	margin-top:30px;
 }
 
-.read-news{
+.read_news{
 	-webkit-appearance: none;
 	font-size: 2em;
 	font-family: 'Merriweather', serif;
@@ -21,7 +21,7 @@
 	cursor: pointer;
 }
 
-.read-news:hover{
+.read_news:hover{
 	background-color: gray;
 	color:white;
 	transform: translateY(-7px);
@@ -357,4 +357,21 @@ h1{
 	margin-top: 200px;
 	text-align: center;
 	font-size: 2em;
+}
+
+.sign_categories, .sign_source{
+	float:right;
+	margin-right: 10px;
+	font-size: 1.3em;
+	transition: all 0.1s ease-out;
+	color:black;
+}
+
+
+.sign_categories:hover, .sign_source:hover{
+	color:yellow;
+}
+
+.spin{
+	transform:rotate(-45deg);
 }

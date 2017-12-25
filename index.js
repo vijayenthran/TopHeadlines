@@ -4,6 +4,9 @@ const Categories = ['business', 'gaming', 'health-and-medical', 'music', 'sport'
 const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today', 'crypto-coins-news', 'football-italia', 'four-four-two', 'hacker-news', 'msnbc', 'nhl-news', 'reuters', 'the-economist', 'polygon', 'national-geographic', 'mtv-news'];
 const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click to View From Source Button" in List View`;
 const filterTopNewsNum = 100;
+const _localStorage = window.localStorage;
+const defaultSearch = 'trump';
+
 
 let headlines = (function () {
 	const config = {
@@ -28,12 +31,14 @@ let headlines = (function () {
     	.filter((item, index) => (index <= filterTopNewsNum));
     	return manipulatedOutput;
     }
-
+    
+    // handle if there are no search results
     function handleNoResults(){
     	$('.no_headlines').removeClass('remove-display');
     	return;
     }
 
+    // handle the succes json
     function handleLargeSuccessOutput(successOutput, optionalParam) {
     	if (optionalParam.data.category === 'sport') {
     		return removeBBCSportNews(successOutput);
@@ -71,6 +76,7 @@ let headlines = (function () {
     	return manipulatedOutput;
     }
 
+    // handle to display the results in list formate
     function handleListDisplay(thumbnailObj) {
     	let element = thumbnailObj.map(obj =>
     		`
@@ -85,24 +91,26 @@ let headlines = (function () {
     		</div>
     		`
     		);
-    	$('.displayNewsList').append(element);
+    	$('.js_displayNewsList').append(element);
     }
 
-    function handleThumbnailDispaly(thumbnailObj) {
-    	let element = thumbnailObj.map(obj =>
-    		`
-    		<div class="thumbnailWrapper">
-    		<img src="${obj.urlToImage}" alt="${obj.title}" class= "thumbnails img_img" data-source="${obj.url}">
-    		<p class="img_description">
-    		${obj.description}
-    		</p>
-    		</div>
-    		`
-    		);
-    	$('.displayNewsGrid').append(element);
-    	return;
-    }
+	// handle to display the results in Thumbnail format
+	function handleThumbnailDispaly(thumbnailObj) {
+		let element = thumbnailObj.map(obj =>
+			`
+			<div class="thumbnailWrapper">
+			<img src="${obj.urlToImage}" alt="${obj.title}" class= "thumbnails img_img" data-source="${obj.url}">
+			<p class="img_description js_img_description">
+			${obj.description}
+			</p>
+			</div>
+			`
+			);
+		$('.js_displayNewsGrid').append(element);
+		return;
+	}
 
+    // handle success of Ajax Call
     function handleSuccess(successObj, optionalParam) {
     	let output = handleLargeSuccessOutput(successObj, optionalParam);
     	handleThumbnailDispaly(output);
@@ -110,12 +118,13 @@ let headlines = (function () {
     	return;
     }
 
+    // handle Failure of Ajax Call
     function handleFailure(errObj) {
     	console.log('There was an error on the Ajax Call');
-    	console.log(errObj);
-    	throw 'errObj';
+    	throw new Error('errObj');
     }
 
+    // manipulate the endpoint based on user options.
     function manipulateConfig(userOption) {
     	let copyconfig = Object.assign({}, config);
     	delete copyconfig.data.q;
@@ -134,13 +143,15 @@ let headlines = (function () {
     	return;
     }
 
+    // Util function do do some clean up.
     function cleanUp() {
-    	$('.displayNewsGrid').find('.thumbnailWrapper').remove();
-    	$('.displayNewsList').find('.list_wrapper').remove();
+    	$('.js_displayNewsGrid').find('.thumbnailWrapper').remove();
+    	$('.js_displayNewsList').find('.list_wrapper').remove();
     	$('.no_headlines').addClass('remove-display');
     	return;
     }
 
+    // handle the ajax call
     let getHeadlines = function (manipulatedconfig) {
     	cleanUp();
     	return $.ajax(manipulatedconfig)
@@ -157,139 +168,155 @@ let headlines = (function () {
     }
 })();
 
-function changeCurrentView(val){
-	if(!val){
-		throw new Error('val not found');
-	}else if(val === '1'){
-		$('.displayNewsGrid').addClass('remove-display');
-		$('.displayNewsList').removeClass('remove-display');
-		$('.default_view').val(`List-View Click to change`);
-		$('.view_Grid').addClass('remove-display');
-		$('.view_List').addClass('remove-display');
-		return;
-	}else if(val === '2'){
-		$('.displayNewsGrid').removeClass('remove-display');
-		$('.displayNewsList').addClass('remove-display');
-		$('.default_view').val(`Thumbnail-View Click to change`);
-		$('.view_Grid').addClass('remove-display');
-		$('.view_List').addClass('remove-display');
-		return;
-	}else if(val === '3'){
-		$('.displayNewsGrid').addClass('remove-display');
-		$('.displayNewsList').removeClass('remove-display');
-		$('.view_Grid').removeClass('remove-display');
-		$('.view_List').addClass('remove-display');
-		$('.default_view').val('ChooseDefaultView');
-		handleToggleView();
-		return;
+// handle the local storage, To save users option(Either the Thumbnail or List View)
+let localStorage = (function(localStorage){
+	function _changeCurrentView(val){
+		if(!val){
+			throw new Error('val not found');
+		}else if(val === '1'){
+			$('.js_displayNewsGrid').addClass('remove-display');
+			$('.js_displayNewsList').removeClass('remove-display');
+			$('.js_default_view').val(`List-View Click to change`);
+			$('.js_view_Grid').addClass('remove-display');
+			$('.js_view_List').addClass('remove-display');
+			return;
+		}else if(val === '2'){
+			$('.js_displayNewsGrid').removeClass('remove-display');
+			$('.js_displayNewsList').addClass('remove-display');
+			$('.js_default_view').val(`Thumbnail-View Click to change`);
+			$('.js_view_Grid').addClass('remove-display');
+			$('.js_view_List').addClass('remove-display');
+			return;
+		}else if(val === '3'){
+			$('.js_displayNewsGrid').addClass('remove-display');
+			$('.js_displayNewsList').removeClass('remove-display');
+			$('.js_view_Grid').removeClass('remove-display');
+			$('.js_view_List').addClass('remove-display');
+			$('.js_default_view').val('ChooseDefaultView');
+			handleToggleView();
+			return;
+		}
 	}
-}
 
-function setLocalStorage(localStorageVal){
-	let toggleSwitchVal;
-	if(!localStorageVal){
-		throw new Error('localStorageVal not found');
-	}
-	if(localStorageVal === 'List'){
-		toggleSwitchVal = 1;
-	} else if(localStorageVal === 'Thumbnail'){
-		toggleSwitchVal = 2;
-	} else if(localStorageVal === 'Default'){
-		toggleSwitchVal = 3;
-	}
-	localStorage.setItem('View', toggleSwitchVal);
-	$('.view_Grid').addClass('remove-display');
-	let getLocalStorageVal= getLocalStorage('View');
-	changeCurrentView(getLocalStorageVal);
-	return;
-}
+    // Set local storage
+    function _setLocalStorage(localStorageVal){
+    	let toggleSwitchVal;
+    	if(!localStorageVal){
+    		throw new Error('localStorageVal not found');
+    	}
+    	if(localStorageVal === 'List'){
+    		toggleSwitchVal = 1;
+    	} else if(localStorageVal === 'Thumbnail'){
+    		toggleSwitchVal = 2;
+    	} else if(localStorageVal === 'Default'){
+    		toggleSwitchVal = 3;
+    	}
+    	localStorage.setItem('View', toggleSwitchVal);
+    	$('.js_view_Grid').addClass('remove-display');
+    	let getLocalStorageVal= _getLocalStorage('View');
+    	_changeCurrentView(getLocalStorageVal);
+    	return;
+    }
 
-function getLocalStorage(storageKey){
-	if(!storageKey){
-		throw new Error('storageKey not found');
-	}
-	return localStorage.getItem(storageKey);
-}
+    // get local storage val
+    function _getLocalStorage(storageKey){
+    	if(!storageKey){
+    		throw new Error('storageKey not found');
+    	}
+    	return localStorage.getItem(storageKey);
+    }
+    
+    // remove local storage val
+    function _removeLocalStorage(localStorageVal){
+    	if(!localStorageVal){
+    		throw new Error('localStorageVal not found');
+    	}
+    	localStorage.removeItem('View');
+    	return;
+    }
+    return{
+    	changeCurrentView : _changeCurrentView,
+    	setLocalStorage : _setLocalStorage,
+    	getLocalStorage : _getLocalStorage,
+    	removeLocalStorage : _removeLocalStorage
+    }
+})(_localStorage);
 
-function removeLocalStorage(localStorageVal){
-	if(!localStorageVal){
-		throw new Error('localStorageVal not found');
-	}
-	localStorage.removeItem('View');
-	return;
-}
-
+// handle, Selecting the default view user likes, through a form
 function handleShowDefault(){
-	$('.pop_up_form').submit(function(event){
+	$('.js_pop_up_form').submit(function(event){
 		event.preventDefault();
 		let selectedRadio = $('input[name="view"]:checked').val();
 		if(selectedRadio === 'List' || selectedRadio === 'Thumbnail'){
-			setLocalStorage(selectedRadio);
+			localStorage.setLocalStorage(selectedRadio);
 		}
 		else{
 			let defaultToggleSwitch = '3';
-			removeLocalStorage(selectedRadio);
-			changeCurrentView(defaultToggleSwitch);
+			localStorage.removeLocalStorage(selectedRadio);
+			localStorage.changeCurrentView(defaultToggleSwitch);
 		}
-		$('.outer_Overlay').addClass('remove-display')
+		$('.js_outer_Overlay').addClass('remove-display')
 	});
 	return;
 }
 
+// Close the pop up after selecting the default view.
 function closePopUp(){
-	$('.close_popup').on('click', function(){
-		$('.outer_Overlay').addClass('remove-display');
+	$('.js_close_popup').on('click', function(){
+		$('.js_outer_Overlay').addClass('remove-display');
 	});
 	return;
 }
 
+// Choose the default view using the popup.
 function chooseDefaultView(){
-	$('.default_view').on('click', function(){
-		$('.outer_Overlay').removeClass('remove-display');
+	$('.js_default_view').on('click', function(){
+		$('.js_outer_Overlay').removeClass('remove-display');
 	});
 	closePopUp();
 	handleShowDefault();
 	return;
 }
 
-
+// Open the links of the original news in a new tab
 function openLinkNewTab(){
-	$('.displayNewsGrid').on('click', '.img_description', function(event){
+	$('.js_displayNewsGrid').on('click', '.js_img_description', function(event){
 		event.preventDefault();
 		event.stopPropagation();
-		let url = $(this).closest('.displayNewsGrid').find('.img_img').data('source');
+		let url = $(this).closest('.js_displayNewsGrid').find('.img_img').data('source');
 		window.open(url, '_blank');
 	});
 }
 
-
+// handle the toggle between the list and the Thumbnail View.
 function handleToggleView() {
-	if(!getLocalStorage('View')) {
-		$('.toggle-Display').on('click', '.view_Grid', function () {
-			$('.displayNewsGrid').removeClass('remove-display');
-			$('.displayNewsList').addClass('remove-display');
+	if(!localStorage.getLocalStorage('View')) {
+		$('.js-toggle-Display').on('click', '.js_view_Grid', function () {
+			$('.js_displayNewsGrid').removeClass('remove-display');
+			$('.js_displayNewsList').addClass('remove-display');
 			$(this).addClass('remove-display');
-			$(this).closest('.toggle-Display').find('.view_List').removeClass('remove-display');
+			$(this).closest('.js-toggle-Display').find('.js_view_List').removeClass('remove-display');
 		});
-		$('.toggle-Display').on('click', '.view_List', function (event) {
-			$('.displayNewsGrid').addClass('remove-display');
-			$('.displayNewsList').removeClass('remove-display');
+		$('.js-toggle-Display').on('click', '.js_view_List', function (event) {
+			$('.js_displayNewsGrid').addClass('remove-display');
+			$('.js_displayNewsList').removeClass('remove-display');
 			$(this).addClass('remove-display');
-			$(this).closest('.toggle-Display').find('.view_Grid').removeClass('remove-display');
+			$(this).closest('.js-toggle-Display').find('.js_view_Grid').removeClass('remove-display');
 		});
 		return;
 	}else{
-		$('.view_Grid').addClass('remove-display');
-		let getLocalStorageVal= getLocalStorage('View');
-		changeCurrentView(getLocalStorageVal);
+		$('.js_view_Grid').addClass('remove-display');
+		let getLocalStorageVal= localStorage.getLocalStorage('View');
+		localStorage.changeCurrentView(getLocalStorageVal);
 		return;
 	}
 }
 
+// handle get news results through search
 function getNewsBySearch() {
-	$('.search-form').submit(function (event) {
+	$('.js-search-form').submit(function (event) {
 		event.preventDefault();
-		let inputVal = $('.search-form-text').val();
+		let inputVal = $('.js-search-form-text').val();
 		let value = {
 			type: 'Search Box',
 			value: inputVal
@@ -299,10 +326,11 @@ function getNewsBySearch() {
 	return;
 }
 
+// handle, get news results based on selecting category
 function getNewsByCategories() {
-	$('.categories_ul').on('click', '.search-Category-link', function (event) {
+	$('.js_categories_ul').on('click', '.js-search-Category-link', function (event) {
 		event.preventDefault();
-		let endPoint = $('.categories_ul').data('category');
+		let endPoint = $('.js_categories_ul').data('category');
 		let inputValue = $(this).text();
 		let categoryObj = {
 			type: endPoint,
@@ -313,12 +341,13 @@ function getNewsByCategories() {
 	return;
 }
 
+// handle, get news results from the drop down(when Menu changes to dropdown)
 function getNewsFromDropDown() {
-	$('.list-options').change(function (event) {
-		let inputValue = $(".list-options option:selected").text();
-		let endPoint = $(".list-options option:selected");
+	$('.js-list-options').change(function (event) {
+		let inputValue = $(".js-list-options option:selected").text();
+		let endPoint = $(".js-list-options option:selected");
 		let endPointdata;
-		if (endPoint.closest('.group2-sources').data('sites') === 'sources') {
+		if (endPoint.closest('.js-group2-sources').data('sites') === 'sources') {
 			endPointdata = 'sources'
 		} else {
 			endPointdata = 'category'
@@ -332,10 +361,11 @@ function getNewsFromDropDown() {
 	return;
 }
 
+// hand;e get news by selecting the source.
 function getNewsBySources() {
-	$('.source_ul').on('click', '.search-sites-link', function (event) {
+	$('.js_source_ul').on('click', '.js-search-sites-link', function (event) {
 		event.preventDefault();
-		let endPoint = $('.source_ul').data('sites');
+		let endPoint = $('.js_source_ul').data('sites');
 		let inputValue = $(this).text();
 		let sourceObj = {
 			type: endPoint,
@@ -346,63 +376,70 @@ function getNewsBySources() {
 	return;
 }
 
+// handle generating the categories.
 function generateCategories() {
 	let counter = 0;
 	let element = Categories.map(category => {
 		counter = counter + 1;
 		return `<li>
-		<a href="#" name="Category-${counter}" class="search-Category-link">${category}</a>
+		<a href="#" name="Category-${counter}" class="search-Category-link js-search-Category-link">${category}</a>
 		</li>`
 	});
 	let elementList = Categories.map(category => {
 		return `<option class="group1-category-option">${category}</option>`
 	});
-	$('.categories_ul').append(element);
-	$('.group1-category').append(elementList);
+	$('.js_categories_ul').append(element);
+	$('.js-group1-category').append(elementList);
 	counter = 0;
 	return;
 }
 
+// handle generating the sources.
 function generateSources() {
 	let counter = 0;
 	let element = Sources.map(source => {
 		counter = counter + 1;
 		return `<li>
-		<a href="#" name="Source-${counter}" class="search-sites-link">${source}</a>
+		<a href="#" name="Source-${counter}" class="search-sites-link js-search-sites-link">${source}</a>
 		</li>`
 	});
 	let elementList = Sources.map(source => {
 		return `<option class="group2-sources-option">${source}</option>`
 	});
-	$('.source_ul').append(element);
-	$('.group2-sources').append(elementList);
+	$('.js_source_ul').append(element);
+	$('.js-group2-sources').append(elementList);
 	counter = 0;
 	return;
 }
 
+// View News by clicking the read news button.
 function readNewsClick() {
 	const defaultNewsObj= {
 		type : 'default',
-		value: 'trump'
+		value: defaultSearch
 	}
-	$('.read-news').on('click', function () {
-		$(this).closest('.newspaperImage').slideUp();
-		$('.grid-section').removeClass('remove-display');
+	$('.js_read_news').on('click', function () {
+		$(this).closest('.js_newspaperImage').slideUp('fast');
+		$('.js-grid-section').removeClass('remove-display');
 		headlines.sendConfig(defaultNewsObj);
 	});
 	return;
 }
 
+// handle, showing the categories and sources options in the menu
 function handleShowUl(){
-	$('.menu_categories_title').on('click', function(){
-		$('.categories_ul').slideToggle('fast');
+	$('.js_menu_categories_title').on('click', function(){
+		$('.js_categories_ul').slideToggle('fast');
+		$('.js_sign_categories').toggleClass('spin');
 	});
-	$('.menu_Sources_title').on('click', function(){
-		$('.source_ul').slideToggle('fast');
+	$('.js_menu_Sources_title').on('click', function(){
+		$('.js_source_ul').slideToggle('fast');
+		$('.js_sign_source').toggleClass('spin');
 	});
 	return;
 }
 
+// Main entry point
 function main() {
 	readNewsClick();
 	generateCategories();

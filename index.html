@@ -10,69 +10,72 @@
 </head>
 <body>
 	<main>
-		<section class="newspaperImage">
+		<section class="newspaperImage js_newspaperImage">
 			<header><h1>Read Top Headlines</h1></header>
 			<img src="./files/Newspaper.png" class="main_img">
-			<div class="read-news-Button">
-				<input type="button" name="Click-to-Read-Headlines" value="Click to Read" class="read-news">
+			<div class="read_news_Button">
+				<input type="button" name="Click-to-Read-Headlines" value="Click to Read" class="read_news js_read_news">
 			</div>
 		</section>
-		<section class="grid-section remove-display">
+		<section class="grid-section js-grid-section remove-display">
 			<section class="grid">
 				<section class="col-1 select-search-content">
 					<aside class="menu">
 						<ul>
 							<li class="title">Menu</li>
 							<li class="menu_categories">
-								<li class="title menu_categories_title">Categories
+								<li class="title menu_categories_title js_menu_categories_title">Categories
+									<div class='sign_categories js_sign_categories spin'>+</div>
 								</li>
-								<ul class="categories_ul" data-category="category">
+								<ul class="categories_ul js_categories_ul" data-category="category">
 								</ul>
 							</li>
 							<li class="menu_Sources">
-								<li class="title menu_Sources_title">Sources</li>
-								<ul class="source_ul" data-sites="sources">
+								<li class="title menu_Sources_title js_menu_Sources_title">Sources
+									<div class='sign_source js_sign_source spin'>+</div>
+								</li>
+								<ul class="source_ul js_source_ul" data-sites="sources">
 								</ul>
 							</li>
 						</ul>
 					</aside>
-					<select class="list-options remove-display">
+					<select class="list-options js-list-options remove-display">
 						<optgroup label="Select an Option" data-Category="category">
 							<option selected="selected">Please choose category or Source</option>
 						</optgroup>
-						<optgroup label="Categories" class="group1-category" data-category="category">
+						<optgroup label="Categories" class="group1-category js-group1-category" data-category="category">
 						</optgroup>
-						<optgroup label="Sources" class="group2-sources" data-sites="sources">
+						<optgroup label="Sources" class="group2-sources js-group2-sources" data-sites="sources">
 						</optgroup>
 					</select>
 				</section>
 				<section class="col-2 display-search-articles">
-					<form class="search-form">
+					<form class="search-form js-search-form">
 						<fieldset class="search-form-fieldset">
 							<legend class="search-form-legend">Enter a Search Text</legend>
-							<input type="text" name="search-form-text" class="search-form-text"
+							<input type="text" name="search-form-text" class="search-form-text js-search-form-text"
 							placeholder="Search Ex:Trump">
 							<input type="Submit" name="search-form-button" class="search-form-button" value="Search">
 						</fieldset>
 					</form>
-					<div class="toggle-Display">
-						<input type="button" name="defaultView" value="ChooseDefaultView" class="default_view">
-						<input type="button" name="toggle" value="Thumbnail-View" class="view_Grid">
-						<input type="button" name="toggle" value="List-View" class="view_List remove-display">
+					<div class="toggle-Display js_toggle-Display">
+						<input type="button" name="defaultView" value="ChooseDefaultView" class="default_view js_default_view">
+						<input type="button" name="toggle" value="Thumbnail-View" class="view_Grid js_view_Grid">
+						<input type="button" name="toggle" value="List-View" class="view_List js_view_List remove-display">
 					</div>
 					<article class="no_headlines remove-display">
 						<p>Sorry, There are no Search Results, Please try Different Search</p>
 					</article>
-					<article class="displayNewsGrid remove-display">
+					<article class="displayNewsGrid js_displayNewsGrid remove-display">
 					</article>
-					<article class="displayNewsList">
+					<article class="displayNewsList js_displayNewsList">
 					</article>
 				</section>
-				<section class='outer_Overlay remove-display'>
+				<section class='outer_Overlay js_outer_Overlay remove-display'>
 					<section class='pop_up'>
-						<div class="close_popup">&times;</div>
+						<div class="close_popup js_close_popup">&times;</div>
 						<p class="pop_up_text">Did you Try both Views?, If not, Please try both views, Before Selecting the default View, Dont worry you can reset this anytime</p>
-						<form class="pop_up_form">
+						<form class="pop_up_form js_pop_up_form">
 							<fieldset class="pop_up_form_fieldset">
 								<legend>
 									Select one option and Hit Okay

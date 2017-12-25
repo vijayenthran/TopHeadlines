@@ -297,7 +297,7 @@ function handleToggleView() {
 			$(this).addClass('remove-display');
 			$(this).closest('.js-toggle-Display').find('.js_view_List').removeClass('remove-display');
 		});
-		$('.js-toggle-Display').on('click', '.js_view_List', function (event) {
+		$('.js-toggle-Display').on('click', '.js_view_List', function () {
 			$('.js_displayNewsGrid').addClass('remove-display');
 			$('.js_displayNewsList').removeClass('remove-display');
 			$(this).addClass('remove-display');

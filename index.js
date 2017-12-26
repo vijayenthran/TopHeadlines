@@ -81,12 +81,12 @@ let headlines = (function () {
     	let element = thumbnailObj.map(obj =>
     		`
     		<div class="list_wrapper">
-    		<img src="${obj.urlToImage}" alt="${obj.title}" class= "list_view_image" />
+    		<img src="${obj.urlToImage}" alt="${obj.title}" class= "list_view_image" tabindex="0"/>
     		<p class="list_img_description">
     		'${obj.description}'
     		</p>
     		<a target="_blank" href="${obj.url}">
-    		<input type="button"  name="View_detail_news" value="CLick to View From Source" class="view_detail" />
+    		<input type="button"  name="View_detail_news" value="CLick to View From Source" class="view_detail" aria-label="Click this link to Read the news from Original Site"/>
     		</a>
     		</div>
     		`
@@ -98,7 +98,7 @@ let headlines = (function () {
 	function handleThumbnailDispaly(thumbnailObj) {
 		let element = thumbnailObj.map(obj =>
 			`
-			<div class="thumbnailWrapper">
+			<div class="thumbnailWrapper" tabindex="0" aria-label="${obj.title}" role="thumbnail">
 			<img src="${obj.urlToImage}" alt="${obj.title}" class= "thumbnails img_img" data-source="${obj.url}">
 			<p class="img_description js_img_description">
 			${obj.description}

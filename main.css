@@ -51,13 +51,13 @@ h1{
 .categories_ul{
 	height: 180px;
 	-webkit-overflow-scrolling: touch;
-	overflow-y:scroll;
+	overflow-y:auto;
 }
 
 .source_ul{
 	height: 465px;
 	-webkit-overflow-scrolling: touch;
-	overflow-y:scroll;
+	overflow-y:auto;
 }
 
 .col-2 {
@@ -136,7 +136,7 @@ h1{
 	top: 0;
 	bottom: 0;
 	left: 0;
-	right: 0;ß
+	right: 0;
 	background: rgba(0,0,0,0.7);
 	color: #fff;
 	visibility: hidden;
@@ -145,7 +145,7 @@ h1{
 	cursor: pointer;
 	padding:10px;
 	-webkit-overflow-scrolling: touch;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .thumbnailWrapper:hover .img_description {
@@ -185,7 +185,7 @@ h1{
 .displayNewsList{
 	padding: 40px;
 	height:80%;
-	overflow-y:scroll;
+	overflow-y:auto;
 }
 
 .list_wrapper:after {
@@ -197,7 +197,7 @@ h1{
 .displayNewsGrid{
 	width: 90%;
 	height:80%;
-	overflow-y:scroll;
+	overflow-y:auto;
 	margin-left: auto;
 	margin-right: auto;
 }

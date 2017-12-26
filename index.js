@@ -98,7 +98,7 @@ let headlines = (function () {
 	function handleThumbnailDispaly(thumbnailObj) {
 		let element = thumbnailObj.map(obj =>
 			`
-			<div class="thumbnailWrapper" tabindex="0" aria-label="${obj.title}" role="thumbnail">
+			<div class="thumbnailWrapper" tabindex="0" aria-label="${obj.title}" role="image">
 			<img src="${obj.urlToImage}" alt="${obj.title}" class= "thumbnails img_img" data-source="${obj.url}">
 			<p class="img_description js_img_description">
 			${obj.description}

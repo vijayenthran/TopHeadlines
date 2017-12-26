@@ -50,11 +50,13 @@ h1{
 
 .categories_ul{
 	height: 180px;
+	-webkit-overflow-scrolling: touch;
 	overflow-y:scroll;
 }
 
 .source_ul{
 	height: 465px;
+	-webkit-overflow-scrolling: touch;
 	overflow-y:scroll;
 }
 
@@ -134,7 +136,7 @@ h1{
 	top: 0;
 	bottom: 0;
 	left: 0;
-	right: 0;
+	right: 0;ß
 	background: rgba(0,0,0,0.7);
 	color: #fff;
 	visibility: hidden;
@@ -142,6 +144,7 @@ h1{
 	transition: opacity .2s, visibility .2s;
 	cursor: pointer;
 	padding:10px;
+	-webkit-overflow-scrolling: touch;
 	overflow-y: scroll;
 }
 
@@ -223,13 +226,11 @@ h1{
 	border-bottom:2px solid #3ab4a6;
 	margin-right: 20px;
 	font-size: 1.5em;
-	outline: none;
 	font-family: 'Quattrocento', serif;
 }
 
 .default_view, .view_Grid, .view_List, .view_detail, .pop_up_form_submit{
 	-webkit-appearance: none;
-	outline: none;
 	font-size: 0.9em;
 	border-radius: 5px;
 	font-family: 'Crimson Text', serif;
@@ -246,7 +247,6 @@ h1{
 	font-size: 1.2em;
 	border-radius: 20px;
 	color:white;
-	outline: none;
 	background: black;
 	font-family: 'Courgette', cursive;
 }

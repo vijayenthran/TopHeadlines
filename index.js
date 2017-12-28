@@ -1,5 +1,21 @@
 'use strict';
 
+// Fix all the below comments
+
+// Implement a loader
+// Make text clickable
+// Have a dummy image, check lazy loading images
+// Outline = none — Design this better
+// rel="noopener"
+// icomoon
+
+// https://vijayenthran.github.io/TopHeadlines/
+// https://github.com/vijayenthran/TopHeadlines/tree/gh-pages
+
+
+// .Git ignore — Remove the Ds Store File.
+// .Editor config
+
 const Categories = ['business', 'gaming', 'health-and-medical', 'music', 'sport', 'technology'];
 const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today', 'crypto-coins-news', 'football-italia', 'four-four-two', 'hacker-news', 'msnbc', 'nhl-news', 'reuters', 'the-economist', 'polygon', 'national-geographic', 'mtv-news'];
 const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click to View From Source Button" in List View`;
@@ -75,6 +91,7 @@ let headlines = (function () {
     	}
     	return manipulatedOutput;
     }
+//     		// <input type="button"  name="View_detail_news" value="CLick to View From Source" class="view_detail" aria-label="Click this link to Read the news from Original Site"/>
 
     // handle to display the results in list formate
     function handleListDisplay(thumbnailObj) {
@@ -83,11 +100,10 @@ let headlines = (function () {
     		<div class="list_wrapper">
     		<img src="${obj.urlToImage}" alt="${obj.title}" class= "list_view_image" tabindex="0"/>
     		<p class="list_img_description">
+    		<a target="_blank" href="${obj.url}">
     		'${obj.description}'
     		</p>
-    		<a target="_blank" href="${obj.url}">
-    		<input type="button"  name="View_detail_news" value="CLick to View From Source" class="view_detail" aria-label="Click this link to Read the news from Original Site"/>
-    		</a>
+    		</a>    		
     		</div>
     		`
     		);

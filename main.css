@@ -58,6 +58,7 @@ h1{
 	overflow-y:auto;
 }
 
+
 .col-2 {
 	width: 75%;
 	height: 780px;
@@ -176,10 +177,21 @@ h1{
 	margin-bottom: 10px;
 }
 
-.list_img_description{
+.list_img_description a{
 	font-size: 1.2em;
 	font-family: 'Merriweather', serif;
+	text-decoration: none;
+	color: black;
 }
+
+.list_img_description a:hover{
+	color: #717171;
+}
+
+.list_img_description a:visited{
+	color: #556B2F;
+}
+
 
 .displayNewsList{
 	padding: 40px;

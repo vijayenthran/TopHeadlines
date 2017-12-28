@@ -16,6 +16,7 @@
 // .Git ignore — Remove the Ds Store File.
 // .Editor config
 
+
 const Categories = ['business', 'gaming', 'health-and-medical', 'music', 'sport', 'technology'];
 const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today', 'crypto-coins-news', 'football-italia', 'four-four-two', 'hacker-news', 'msnbc', 'nhl-news', 'reuters', 'the-economist', 'polygon', 'national-geographic', 'mtv-news'];
 const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click to View From Source Button" in List View`;
@@ -98,9 +99,9 @@ let headlines = (function () {
     	let element = thumbnailObj.map(obj =>
     		`
     		<div class="list_wrapper">
-    		<img src="${obj.urlToImage}" alt="${obj.title}" class= "list_view_image" tabindex="0"/>
+    		<img src="" alt="${obj.title}" class= "list_view_image listbackground" tabindex="0" data-srcimg="${obj.urlToImage}"/>
     		<p class="list_img_description">
-    		<a target="_blank" href="${obj.url}">
+    		<a target="_blank" href="${obj.url}" rel="noreferrer">
     		'${obj.description}'
     		</p>
     		</a>    		
@@ -108,14 +109,15 @@ let headlines = (function () {
     		`
     		);
     	$('.js_displayNewsList').append(element);
+        handleLazyLoadList();
     }
 
 	// handle to display the results in Thumbnail format
 	function handleThumbnailDispaly(thumbnailObj) {
 		let element = thumbnailObj.map(obj =>
 			`
-			<div class="thumbnailWrapper" tabindex="0" aria-label="${obj.title}">
-			<img src="${obj.urlToImage}" alt="${obj.title}" class= "thumbnails img_img" data-source="${obj.url}">
+			<div class="thumbnailWrapper thumbnailbackground" tabindex="0" aria-label="${obj.title}">
+			<img src="" alt="${obj.title}" class= "thumbnails img_img" data-source="${obj.url}" data-srcimg="${obj.urlToImage}">
 			<p class="img_description js_img_description">
 			${obj.description}
 			</p>
@@ -123,8 +125,31 @@ let headlines = (function () {
 			`
 			);
 		$('.js_displayNewsGrid').append(element);
+        handleLazyLoadThumbnail();
 		return;
 	}
+
+	function handleLazyLoadThumbnail(){
+      $('.thumbnails').each(function(){
+            $(this).attr('src',  $(this).attr('data-srcimg'));
+            $(this).on('load', function(){
+            	$('.js_displayNewsGrid').find('.thumbnailWrapper').removeClass('thumbnailbackground');
+			});
+	  });
+
+	}
+
+    function handleLazyLoadList(){
+		console.log('I am');
+        $('.js_displayNewsList').find('.list_view_image').each(function(){
+        	// console.log('I am here');
+            $(this).attr('src',  $(this).attr('data-srcimg'));
+            $(this).on('load', function(){
+                $('.js_displayNewsList').find('.list_view_image').removeClass('listbackground');
+            });
+        });
+
+    }
 
     // handle success of Ajax Call
     function handleSuccess(successObj, optionalParam) {
@@ -300,7 +325,9 @@ function openLinkNewTab(){
 		event.preventDefault();
 		event.stopPropagation();
 		let url = $(this).closest('.js_displayNewsGrid').find('.img_img').data('source');
-		window.open(url, '_blank');
+        let otherWindow = window.open();
+        otherWindow.opener = null;
+        otherWindow.location = url;
 	});
 }
 

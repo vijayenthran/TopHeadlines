@@ -87,12 +87,12 @@ let headlines = (function () {
     		<a target="_blank" href="${obj.url}" rel="noreferrer">
     		'${obj.description}'
     		</p>
-    		</a>    		
+    		</a>
     		</div>
     		`
     		);
     	$('.js_displayNewsList').append(element);
-        handleLazyLoadList();
+      handleLazyLoadList();
     }
 
 	// handle to display the results in Thumbnail format
@@ -108,29 +108,29 @@ let headlines = (function () {
 			`
 			);
 		$('.js_displayNewsGrid').append(element);
-        handleLazyLoadThumbnail();
-		return;
-	}
+    handleLazyLoadThumbnail();
+    return;
+  }
 
-	function handleLazyLoadThumbnail(){
-      $('.thumbnails').each(function(){
-            $(this).attr('src',  $(this).attr('data-srcimg'));
-            $(this).on('load', function(){
-            	$('.js_displayNewsGrid').find('.thumbnailWrapper').removeClass('thumbnailbackground');
-			});
-	  });
+  function handleLazyLoadThumbnail(){
+    $('.thumbnails').each(function(){
+      $(this).attr('src',  $(this).attr('data-srcimg'));
+      $(this).on('load', function(){
+       $('.js_displayNewsGrid').find('.thumbnailWrapper').removeClass('thumbnailbackground');
+     });
+    });
 
-	}
+  }
 
-    function handleLazyLoadList(){
-        $('.js_displayNewsList').find('.list_view_image').each(function(){
-            $(this).attr('src',  $(this).attr('data-srcimg'));
-            $(this).on('load', function(){
-                $('.js_displayNewsList').find('.list_view_image').removeClass('listbackground');
-            });
-        });
+  function handleLazyLoadList(){
+    $('.js_displayNewsList').find('.list_view_image').each(function(){
+      $(this).attr('src',  $(this).attr('data-srcimg'));
+      $(this).on('load', function(){
+        $('.js_displayNewsList').find('.list_view_image').removeClass('listbackground');
+      });
+    });
 
-    }
+  }
 
     // handle success of Ajax Call
     function handleSuccess(successObj, optionalParam) {
@@ -167,49 +167,49 @@ let headlines = (function () {
 
     // Util function do do some clean up.
     function cleanUp() {
-        $('.js_displayNewsGrid').find('.thumbnailWrapper').remove();
-        $('.js_displayNewsList').find('.list_wrapper').remove();
-        $('.no_headlines').addClass('remove-display');
-        return;
+      $('.js_displayNewsGrid').find('.thumbnailWrapper').remove();
+      $('.js_displayNewsList').find('.list_wrapper').remove();
+      $('.no_headlines').addClass('remove-display');
+      return;
     }
 
     function showLoader() {
-        $('.js_loader').removeClass('visiblity_hidden');
-        return;
+      $('.js_loader').removeClass('visiblity_hidden');
+      return;
     }
 
     function hideLoader() {
-        $('.js_loader').addClass('visiblity_hidden');
-        return;
+      $('.js_loader').addClass('visiblity_hidden');
+      return;
     }
 
     // handle the ajax call
     let getHeadlines = function (manipulatedconfig) {
     	cleanUp();
     	return $.ajax(manipulatedconfig)
-			.then(function(successres){
-                showLoader();
-			 return successres;
-			})
-    	.then(function (res) {
-    		handleSuccess(res, manipulatedconfig);
-    		return;
-    	})
-			.then(function(){
-			    return new Promise(function(resolve){
-			        setTimeout(function(){
-			            resolve(hideLoader());
-                    }, loaderTime)
-                })
-            })
-    	.catch(function (err) {
-    		handleFailure(err);
-    	})
-    };
-    return {
-    	sendConfig: manipulateConfig,
-    }
-})();
+     .then(function(successres){
+      showLoader();
+      return successres;
+    })
+     .then(function (res) {
+      handleSuccess(res, manipulatedconfig);
+      return;
+    })
+     .then(function(){
+       return new Promise(function(resolve){
+         setTimeout(function(){
+           resolve(hideLoader());
+         }, loaderTime)
+       })
+     })
+     .catch(function (err) {
+      handleFailure(err);
+    })
+   };
+   return {
+     sendConfig: manipulateConfig,
+   }
+ })();
 
 // handle the local storage, To save users option(Either the Thumbnail or List View)
 let localStorage = (function(localStorage){
@@ -283,7 +283,7 @@ let localStorage = (function(localStorage){
     	getLocalStorage : _getLocalStorage,
     	removeLocalStorage : _removeLocalStorage
     }
-})(_localStorage);
+  })(_localStorage);
 
 // handle, Selecting the default view user likes, through a form
 function handleShowDefault(){
@@ -327,10 +327,10 @@ function openLinkNewTab(){
 		event.preventDefault();
 		event.stopPropagation();
 		let url = $(this).closest('.js_displayNewsGrid').find('.img_img').data('source');
-        let otherWindow = window.open();
-        otherWindow.opener = null;
-        otherWindow.location = url;
-	});
+    let otherWindow = window.open();
+    otherWindow.opener = null;
+    otherWindow.location = url;
+  });
 }
 
 // handle the toggle between the list and the Thumbnail View.
@@ -341,18 +341,18 @@ function handleToggleView() {
 			$('.js_displayNewsGrid').removeClass('remove-display');
 			$('.js_displayNewsList').addClass('remove-display');
 			$(this).addClass('remove-display');
-            $('.tool_tip_grid_text').addClass('remove-display');
-            $('.tool_tip_list_text').removeClass('remove-display');
-			$(this).closest('.js-toggle-Display').find('.js_view_List').removeClass('remove-display');
-		});
+      $('.tool_tip_grid_text').addClass('remove-display');
+      $('.tool_tip_list_text').removeClass('remove-display');
+      $(this).closest('.js-toggle-Display').find('.js_view_List').removeClass('remove-display');
+    });
 		$('.js-toggle-Display').on('click', '.js_view_List', function () {
 			$('.js_displayNewsGrid').addClass('remove-display');
 			$('.js_displayNewsList').removeClass('remove-display');
 			$(this).addClass('remove-display');
-            $('.tool_tip_list_text').addClass('remove-display');
-            $('.tool_tip_grid_text').removeClass('remove-display');
-			$(this).closest('.js-toggle-Display').find('.js_view_Grid').removeClass('remove-display');
-		});
+      $('.tool_tip_list_text').addClass('remove-display');
+      $('.tool_tip_grid_text').removeClass('remove-display');
+      $(this).closest('.js-toggle-Display').find('.js_view_Grid').removeClass('remove-display');
+    });
 		return;
 	}else{
 		$('.js_view_Grid').addClass('remove-display');

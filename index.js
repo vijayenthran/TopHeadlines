@@ -1,28 +1,12 @@
 'use strict';
 
-// Fix all the below comments
-
-// Implement a loader
-// Make text clickable
-// Have a dummy image, check lazy loading images
-// Outline = none — Design this better
-// rel="noopener"
-// icomoon
-
-// https://vijayenthran.github.io/TopHeadlines/
-// https://github.com/vijayenthran/TopHeadlines/tree/gh-pages
-
-
-// .Git ignore — Remove the Ds Store File.
-// .Editor config
-
-
 const Categories = ['business', 'gaming', 'health-and-medical', 'music', 'sport', 'technology'];
 const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today', 'crypto-coins-news', 'football-italia', 'four-four-two', 'hacker-news', 'msnbc', 'nhl-news', 'reuters', 'the-economist', 'polygon', 'national-geographic', 'mtv-news'];
 const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click to View From Source Button" in List View`;
 const filterTopNewsNum = 100;
 const _localStorage = window.localStorage;
 const defaultSearch = 'trump';
+const loaderTime = 1500;
 
 
 let headlines = (function () {
@@ -48,7 +32,7 @@ let headlines = (function () {
     	.filter((item, index) => (index <= filterTopNewsNum));
     	return manipulatedOutput;
     }
-    
+
     // handle if there are no search results
     function handleNoResults(){
     	$('.no_headlines').removeClass('remove-display');
@@ -92,7 +76,6 @@ let headlines = (function () {
     	}
     	return manipulatedOutput;
     }
-//     		// <input type="button"  name="View_detail_news" value="CLick to View From Source" class="view_detail" aria-label="Click this link to Read the news from Original Site"/>
 
     // handle to display the results in list formate
     function handleListDisplay(thumbnailObj) {
@@ -140,9 +123,7 @@ let headlines = (function () {
 	}
 
     function handleLazyLoadList(){
-		console.log('I am');
         $('.js_displayNewsList').find('.list_view_image').each(function(){
-        	// console.log('I am here');
             $(this).attr('src',  $(this).attr('data-srcimg'));
             $(this).on('load', function(){
                 $('.js_displayNewsList').find('.list_view_image').removeClass('listbackground');
@@ -186,20 +167,41 @@ let headlines = (function () {
 
     // Util function do do some clean up.
     function cleanUp() {
-    	$('.js_displayNewsGrid').find('.thumbnailWrapper').remove();
-    	$('.js_displayNewsList').find('.list_wrapper').remove();
-    	$('.no_headlines').addClass('remove-display');
-    	return;
+        $('.js_displayNewsGrid').find('.thumbnailWrapper').remove();
+        $('.js_displayNewsList').find('.list_wrapper').remove();
+        $('.no_headlines').addClass('remove-display');
+        return;
+    }
+
+    function showLoader() {
+        $('.js_loader').removeClass('visiblity_hidden');
+        return;
+    }
+
+    function hideLoader() {
+        $('.js_loader').addClass('visiblity_hidden');
+        return;
     }
 
     // handle the ajax call
     let getHeadlines = function (manipulatedconfig) {
     	cleanUp();
     	return $.ajax(manipulatedconfig)
+			.then(function(successres){
+                showLoader();
+			 return successres;
+			})
     	.then(function (res) {
     		handleSuccess(res, manipulatedconfig);
     		return;
     	})
+			.then(function(){
+			    return new Promise(function(resolve){
+			        setTimeout(function(){
+			            resolve(hideLoader());
+                    }, loaderTime)
+                })
+            })
     	.catch(function (err) {
     		handleFailure(err);
     	})
@@ -266,7 +268,7 @@ let localStorage = (function(localStorage){
     	}
     	return localStorage.getItem(storageKey);
     }
-    
+
     // remove local storage val
     function _removeLocalStorage(localStorageVal){
     	if(!localStorageVal){
@@ -335,15 +337,20 @@ function openLinkNewTab(){
 function handleToggleView() {
 	if(!localStorage.getLocalStorage('View')) {
 		$('.js-toggle-Display').on('click', '.js_view_Grid', function () {
+			console.log('I am here');
 			$('.js_displayNewsGrid').removeClass('remove-display');
 			$('.js_displayNewsList').addClass('remove-display');
 			$(this).addClass('remove-display');
+            $('.tool_tip_grid_text').addClass('remove-display');
+            $('.tool_tip_list_text').removeClass('remove-display');
 			$(this).closest('.js-toggle-Display').find('.js_view_List').removeClass('remove-display');
 		});
 		$('.js-toggle-Display').on('click', '.js_view_List', function () {
 			$('.js_displayNewsGrid').addClass('remove-display');
 			$('.js_displayNewsList').removeClass('remove-display');
 			$(this).addClass('remove-display');
+            $('.tool_tip_list_text').addClass('remove-display');
+            $('.tool_tip_grid_text').removeClass('remove-display');
 			$(this).closest('.js-toggle-Display').find('.js_view_Grid').removeClass('remove-display');
 		});
 		return;

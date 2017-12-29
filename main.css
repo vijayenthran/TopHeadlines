@@ -96,6 +96,7 @@ h1{
 
 .search-form-fieldset{
 	border:none;
+	margin-bottom: 10px;
 }
 
 .search-Category li, .search-sites li{
@@ -218,6 +219,7 @@ img{
 	width: 90%;
 	height:80%;
 	overflow-y:auto;
+	margin-top:40px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -229,7 +231,6 @@ img{
 }
 
 .search-form-legend{
-	margin-bottom: 5px;
 	font-size: 1.3em;
 	font-family: 'Merriweather', serif;
 }
@@ -249,14 +250,14 @@ img{
 	font-family: 'Quattrocento', serif;
 }
 
-.default_view,.view_detail, .pop_up_form_submit{
+.default_view,.pop_up_form_submit{
 	-webkit-appearance: none;
 	font-size: 1.1em;
 	border-radius: 5px;
 	font-family: 'Crimson Text', serif;
 }
 
-.default_view:hover, .view_detail:hover, .pop_up_form_submit:hover{
+.default_view:hover, .pop_up_form_submit:hover{
 	background: gray;
 	color:white;
 	box-shadow:inset 0 0 5px #000000;
@@ -277,12 +278,8 @@ img{
 	cursor:pointer;
 }
 
-.view_detail, .default_view{
+.default_view{
 	cursor:pointer;
-}
-
-.view_detail{
-	margin-bottom: 5px;
 }
 
 .outer_Overlay{
@@ -403,6 +400,9 @@ img{
 
 .toggle-Display_list, .toggle-Display_grid {
 	border-radius: 5px;
+	position: relative;
+	text-align: center;
+	margin-right: 5px;
 }
 
 .toggle-Display_list, .toggle-Display_grid, .toggle-Display_default{
@@ -416,4 +416,61 @@ img{
 
 .toggle-Display_list:hover, .toggle-Display_grid:hover{
 	cursor:pointer;
+}
+
+.toggle-Display_list:hover .tool_tip_list_text, .toggle-Display_grid:hover .tool_tip_grid_text{
+	cursor:pointer;
+	visibility: visible;
+}
+
+.tool_tip_list_text, .tool_tip_grid_text{
+	border: 1px solid #3ab4a6;
+	visibility: hidden;
+	background-color: #edfbfd;
+	color: black;
+	padding: 5px;
+	border-radius: 15px;
+	position: absolute;
+	z-index: 1;
+	bottom: -100%;
+	right: -45%;
+	width: 80px;
+}
+
+.tool_tip_list_text:before, .tool_tip_grid_text:before{
+	content: " ";
+	position: absolute;
+	bottom: 100%; /* At the bottom of the tooltip */
+	left: 58%;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent transparent black transparent;
+}
+
+.loader {
+	border: 4px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 4px solid #3498db;
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 31px;
+	left: 50%;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+}
+
+.visiblity_hidden {
+	visibility: hidden;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }

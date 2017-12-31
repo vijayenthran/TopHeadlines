@@ -349,6 +349,10 @@ img{
 	color: #d8f3f0;
 }
 
+.search-Category-link{
+  text-transform: uppercase;
+}
+
 .categories_ul li, .source_ul li{
 	padding-left: 10px;
 
@@ -371,7 +375,7 @@ img{
 	padding-left: 10px;
 }
 
-.no_headlines{
+.no_headlines, .no_Output{
 	margin-top: 200px;
 	text-align: center;
 	font-size: 2em;

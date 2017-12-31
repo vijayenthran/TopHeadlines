@@ -10,6 +10,7 @@ const loaderTime = 800;
 const apiKey = '93c6b412948740479094f9ace7c8aa27';
 let handleStorage;
 let localStorageHelp;
+let sourceArrObj = [];
 
 // check if browser window has local Storage enabled
 if(_localStorage){
@@ -74,11 +75,11 @@ let sourceSites = (function(){
     method: 'GET'
   };
 
-  const arrObj =[];
+  // sourceArrObj =[];
   function handleSuccessRes(success){
       success.sources.filter(source => {
         if(Sources.indexOf(source.id) >= 0){
-       arrObj.push({
+      sourceArrObj.push({
          id : source.id,
          name: source.name
         });
@@ -86,7 +87,9 @@ let sourceSites = (function(){
       });
     // check if browser window has local Storage enabled
       if(_localStorage){
-        handleStorage.set('Source', arrObj, 'obj');
+        handleStorage.set('Source', sourceArrObj, 'obj');
+        generateSources();
+      }else{
         generateSources();
       }
     return;
@@ -143,13 +146,24 @@ let headlines = (function () {
     	return;
     }
 
+  // handle if there are no search results
+  function handleErrorState(){
+    $('.no_Output').removeClass('remove-display');
+    $('.js_loader').addClass('visiblity_hidden');
+    return;
+  }
+
     // handle the succes json
     function handleLargeSuccessOutput(successOutput, optionalParam) {
     	if (optionalParam.data.category === 'sport') {
     		return removeBBCSportNews(successOutput);
     	}
     	let output = successOutput;
-    	if(output && output.totalResults === 0){
+    	if(!output){
+        handleErrorState();
+        return;
+      }
+    	if(output.totalResults === 0){
     		handleNoResults();
     	}
     	let manipulatedOutput;
@@ -164,7 +178,7 @@ let headlines = (function () {
     				return article;
     			}
     		})
-    		.filter((item, index) => (index <= 40));
+    		.filter((item, index) => (index <= filterTopNewsNum));
     	}
     	else {
     		manipulatedOutput = output.articles
@@ -274,6 +288,7 @@ let headlines = (function () {
       $('.js_displayNewsGrid').find('.thumbnailWrapper').remove();
       $('.js_displayNewsList').find('.list_wrapper').remove();
       $('.no_headlines').addClass('remove-display');
+      $('.no_Output').addClass('remove-display');
       return;
     }
 
@@ -307,6 +322,7 @@ let headlines = (function () {
        });
      })
      .catch(function (err) {
+       handleErrorState();
       handleFailure(err);
     })
    };
@@ -379,6 +395,7 @@ if(_localStorage) {
     }
   })();
 }
+
 // handle, Selecting the default view user likes, through a form
 function handleShowDefault(){
 	$('.js_pop_up_form').submit(function(event){
@@ -565,20 +582,19 @@ function generateSources() {
         return `<option class="group2-sources-option" data-srcid="${source.id}">${source.name}</option>`
       });
     }else {
-      sourceSites.getSource;
+      return;
     }
   }else{
-    element = Sources.map(source => {
+    element = sourceArrObj.map(source => {
       counter = counter + 1;
-    return `<li>
-		<a href="#" name="Source-${counter}" class="search-sites-link js-search-sites-link" data-srcid="${source}">${source}</a>
-		</li>`
-  });
-    elementList = Sources.map(source => {
-      return `<option class="group2-sources-option">${source}</option>`
+      return `<li>
+		  <a href="#" name="Source-${counter}" class="search-sites-link js-search-sites-link" data-srcid="${source.id}">${source.name}</a>
+		  </li>`
+    });
+    elementList = sourceArrObj.map(source => {
+      return `<option class="group2-sources-option" data-srcid="${source.id}">${source.name}</option>`
     });
   }
-
 	$('.js_source_ul').append(element);
 	$('.js-group2-sources').append(elementList);
 	counter = 0;

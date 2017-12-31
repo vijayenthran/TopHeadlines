@@ -233,6 +233,7 @@ img{
 .search-form-legend{
 	font-size: 1.3em;
 	font-family: 'Merriweather', serif;
+  margin-bottom: 10px;
 }
 
 .search-form{

@@ -1,19 +1,122 @@
 'use strict';
 
 const Categories = ['business', 'gaming', 'health-and-medical', 'music', 'sport', 'technology'];
-const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today', 'crypto-coins-news', 'football-italia', 'four-four-two', 'hacker-news', 'msnbc', 'nhl-news', 'reuters', 'the-economist', 'polygon', 'national-geographic', 'mtv-news'];
 const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click to View From Source Button" in List View`;
+const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today', 'crypto-coins-news', 'football-italia', 'four-four-two', 'hacker-news', 'msnbc', 'nhl-news', 'reuters', 'the-economist', 'polygon', 'national-geographic', 'mtv-news'];
 const filterTopNewsNum = 100;
 const _localStorage = window.localStorage;
 const defaultSearch = 'trump';
-const loaderTime = 1500;
+const loaderTime = 800;
+const apiKey = '93c6b412948740479094f9ace7c8aa27';
+let handleStorage;
+let localStorageHelp;
+
+// check if browser window has local Storage enabled
+if(_localStorage){
+// handle Storage
+  handleStorage = (function(_localStorage){
+    function _Storage(localStorage = _localStorage){
+      this.type = localStorage;
+    }
+
+    _Storage.prototype.set =function(key, val, type){
+      if(!key && !val && !type){
+        throw new Error('key or val or type is not defined');
+      }
+      if(type === 'num'){
+        this.type.setItem(key, val);
+        return;
+      }
+      if(type === 'obj'){
+        this.type.setItem(key, JSON.stringify(val));
+        return;
+      }
+      this.type.setItem(key, val);
+      return;
+    };
+
+    // get is always returning an integer have to make sure, what is happening.
+    _Storage.prototype.get =function(key, type){
+      if(!key && !type){
+        throw new Error('key and type is not defined in Storage get fn');
+      }
+      if(type === 'num'){
+        return Number(this.type.getItem(key));
+      }else if(type === 'obj'){
+        return JSON.parse(this.type.getItem(key));
+      }else{
+        return this.type.getItem(key);
+      }
+    };
+
+    _Storage.prototype.remove =function(key){
+      if(!key){
+        throw new Error('key is not defined in Storage remove fn');
+      }
+      this.type.removeItem(key);
+      return;
+    };
+
+    return new _Storage();
+
+  })(_localStorage);
+}
+
+
+
+// handle Source Sites
+let sourceSites = (function(){
+  const config = {
+    url: 'https://newsapi.org/v2/sources',
+    data: {
+      apikey: apiKey
+    },
+    method: 'GET'
+  };
+
+  const arrObj =[];
+  function handleSuccessRes(success){
+      success.sources.filter(source => {
+        if(Sources.indexOf(source.id) >= 0){
+       arrObj.push({
+         id : source.id,
+         name: source.name
+        });
+      }
+      });
+    // check if browser window has local Storage enabled
+      if(_localStorage){
+        handleStorage.set('Source', arrObj, 'obj');
+        generateSources();
+      }
+    return;
+  }
+
+  function handleFailureRes(err){
+    console.log('Err from Getting Source Sites Api');
+    throw err;
+  }
+
+
+  let _getSource = function() {
+    $.ajax(config).then(function(successres){
+      handleSuccessRes(successres)
+    }).catch(function(err){
+      handleFailureRes(err)
+    });
+  };
+
+  return {
+    getSource : _getSource()
+  }
+})();
 
 
 let headlines = (function () {
 	const config = {
 		url: 'https://newsapi.org/v2/top-headlines',
 		data: {
-			apikey: '93c6b412948740479094f9ace7c8aa27'
+			apikey: apiKey
 		},
 		method: 'GET'
 	};
@@ -36,6 +139,7 @@ let headlines = (function () {
     // handle if there are no search results
     function handleNoResults(){
     	$('.no_headlines').removeClass('remove-display');
+      $('.js_loader').addClass('visiblity_hidden');
     	return;
     }
 
@@ -45,7 +149,7 @@ let headlines = (function () {
     		return removeBBCSportNews(successOutput);
     	}
     	let output = successOutput;
-    	if(output.totalResults === 0){
+    	if(output && output.totalResults === 0){
     		handleNoResults();
     	}
     	let manipulatedOutput;
@@ -200,7 +304,7 @@ let headlines = (function () {
          setTimeout(function(){
            resolve(hideLoader());
          }, loaderTime)
-       })
+       });
      })
      .catch(function (err) {
       handleFailure(err);
@@ -211,92 +315,82 @@ let headlines = (function () {
    }
  })();
 
-// handle the local storage, To save users option(Either the Thumbnail or List View)
-let localStorage = (function(localStorage){
-	function _changeCurrentView(val){
-		if(!val){
-			throw new Error('val not found');
-		}else if(val === '1'){
-			$('.js_displayNewsGrid').addClass('remove-display');
-			$('.js_displayNewsList').removeClass('remove-display');
-			$('.js_default_view').val(`List-View Click to change`);
-			$('.js_view_Grid').addClass('remove-display');
-			$('.js_view_List').addClass('remove-display');
-			return;
-		}else if(val === '2'){
-			$('.js_displayNewsGrid').removeClass('remove-display');
-			$('.js_displayNewsList').addClass('remove-display');
-			$('.js_default_view').val(`Thumbnail-View Click to change`);
-			$('.js_view_Grid').addClass('remove-display');
-			$('.js_view_List').addClass('remove-display');
-			return;
-		}else if(val === '3'){
-			$('.js_displayNewsGrid').addClass('remove-display');
-			$('.js_displayNewsList').removeClass('remove-display');
-			$('.js_view_Grid').removeClass('remove-display');
-			$('.js_view_List').addClass('remove-display');
-			$('.js_default_view').val('ChooseDefaultView');
-			handleToggleView();
-			return;
-		}
-	}
-
-    // Set local storage
-    function _setLocalStorage(localStorageVal){
-    	let toggleSwitchVal;
-    	if(!localStorageVal){
-    		throw new Error('localStorageVal not found');
-    	}
-    	if(localStorageVal === 'List'){
-    		toggleSwitchVal = 1;
-    	} else if(localStorageVal === 'Thumbnail'){
-    		toggleSwitchVal = 2;
-    	} else if(localStorageVal === 'Default'){
-    		toggleSwitchVal = 3;
-    	}
-    	localStorage.setItem('View', toggleSwitchVal);
-    	$('.js_view_Grid').addClass('remove-display');
-    	let getLocalStorageVal= _getLocalStorage('View');
-    	_changeCurrentView(getLocalStorageVal);
-    	return;
+// check if browser window has local Storage enabled
+if(_localStorage) {
+  // handle the local storage, To save users option(Either the Thumbnail or List View)
+  localStorageHelp = (function () {
+    function _changeCurrentView(val) {
+      if (!val) {
+        throw new Error('val not found');
+      } else if (val === 1) {
+        $('.js_displayNewsGrid').addClass('remove-display');
+        $('.js_displayNewsList').removeClass('remove-display');
+        $('.js_default_view').val(`List-View Click to change`);
+        $('.js_view_Grid').addClass('remove-display');
+        $('.js_view_List').addClass('remove-display');
+        return;
+      } else if (val === 2) {
+        $('.js_displayNewsGrid').removeClass('remove-display');
+        $('.js_displayNewsList').addClass('remove-display');
+        $('.js_default_view').val(`Thumbnail-View Click to change`);
+        $('.js_view_Grid').addClass('remove-display');
+        $('.js_view_List').addClass('remove-display');
+        return;
+      } else if (val === 3) {
+        $('.js_displayNewsGrid').addClass('remove-display');
+        $('.js_displayNewsList').removeClass('remove-display');
+        $('.js_view_Grid').removeClass('remove-display');
+        $('.js_view_List').addClass('remove-display');
+        $('.js_default_view').val('ChooseDefaultView');
+        handleToggleView();
+        return;
+      }
     }
 
-    // get local storage val
-    function _getLocalStorage(storageKey){
-    	if(!storageKey){
-    		throw new Error('storageKey not found');
-    	}
-    	return localStorage.getItem(storageKey);
+    function gettoggleValue(localStorageVal) {
+      if (!localStorageVal) {
+        throw new Error('Local Storage Val not Found in gettoggleValue fn');
+      }
+      let toggleSwitchVal;
+      const storageType = {
+        List: 1,
+        Thumbnail: 2,
+        Default: 3
+      };
+      toggleSwitchVal = storageType[localStorageVal];
+      return toggleSwitchVal;
     }
 
-    // remove local storage val
-    function _removeLocalStorage(localStorageVal){
-    	if(!localStorageVal){
-    		throw new Error('localStorageVal not found');
-    	}
-    	localStorage.removeItem('View');
-    	return;
+    function _helpsetLocalStorage(storageKey, localStorageVal, type) {
+      if (!localStorageVal) {
+        throw new Error('localStorageVal not found');
+      }
+      let toggleSwitchVal = gettoggleValue(localStorageVal);
+      handleStorage.set(storageKey, toggleSwitchVal, type);
+      $('.js_view_Grid').addClass('remove-display');
+      let getLocalStorageVal = handleStorage.get(storageKey, type);
+      _changeCurrentView(getLocalStorageVal);
+      return;
     }
-    return{
-    	changeCurrentView : _changeCurrentView,
-    	setLocalStorage : _setLocalStorage,
-    	getLocalStorage : _getLocalStorage,
-    	removeLocalStorage : _removeLocalStorage
-    }
-  })(_localStorage);
 
+    return {
+      changeCurrentView: _changeCurrentView,
+      helpSetLocalStorage: _helpsetLocalStorage
+    }
+  })();
+}
 // handle, Selecting the default view user likes, through a form
 function handleShowDefault(){
 	$('.js_pop_up_form').submit(function(event){
 		event.preventDefault();
 		let selectedRadio = $('input[name="view"]:checked').val();
 		if(selectedRadio === 'List' || selectedRadio === 'Thumbnail'){
-			localStorage.setLocalStorage(selectedRadio);
+      localStorageHelp.helpSetLocalStorage('View', selectedRadio, 'num');
 		}
 		else{
-			let defaultToggleSwitch = '3';
-			localStorage.removeLocalStorage(selectedRadio);
-			localStorage.changeCurrentView(defaultToggleSwitch);
+			let defaultToggleSwitch = 3;
+      handleStorage.remove('View');
+      localStorageHelp.changeCurrentView(defaultToggleSwitch);
 		}
 		$('.js_outer_Overlay').addClass('remove-display')
 	});
@@ -327,17 +421,20 @@ function openLinkNewTab(){
 		event.preventDefault();
 		event.stopPropagation();
 		let url = $(this).closest('.js_displayNewsGrid').find('.img_img').data('source');
-    let otherWindow = window.open();
-    otherWindow.opener = null;
-    otherWindow.location = url;
+    window.open(url,'_blank','noopener')
   });
 }
 
 // handle the toggle between the list and the Thumbnail View.
 function handleToggleView() {
-	if(!localStorage.getLocalStorage('View')) {
+  let helpertogg;
+  if(_localStorage){
+    helpertogg = !handleStorage.get('View' , 'num');
+  }else{
+    helpertogg = true;
+  }
+	if(helpertogg) {
 		$('.js-toggle-Display').on('click', '.js_view_Grid', function () {
-			console.log('I am here');
 			$('.js_displayNewsGrid').removeClass('remove-display');
 			$('.js_displayNewsList').addClass('remove-display');
 			$(this).addClass('remove-display');
@@ -355,10 +452,15 @@ function handleToggleView() {
     });
 		return;
 	}else{
-		$('.js_view_Grid').addClass('remove-display');
-		let getLocalStorageVal= localStorage.getLocalStorage('View');
-		localStorage.changeCurrentView(getLocalStorageVal);
-		return;
+	  if(_localStorage){
+      let getLocalStorageVal= handleStorage.get('View', 'num');
+      $('.js_view_Grid').addClass('remove-display');
+      localStorageHelp.changeCurrentView(getLocalStorageVal);
+      return;
+    }
+    else{
+	    return;
+    }
 	}
 }
 
@@ -394,13 +496,15 @@ function getNewsByCategories() {
 // handle, get news results from the drop down(when Menu changes to dropdown)
 function getNewsFromDropDown() {
 	$('.js-list-options').change(function (event) {
-		let inputValue = $(".js-list-options option:selected").text();
+		let inputValue;
 		let endPoint = $(".js-list-options option:selected");
 		let endPointdata;
 		if (endPoint.closest('.js-group2-sources').data('sites') === 'sources') {
-			endPointdata = 'sources'
+			endPointdata = 'sources';
+        inputValue = $(".js-list-options option:selected").data('srcid');
 		} else {
-			endPointdata = 'category'
+			endPointdata = 'category';
+      inputValue = $(".js-list-options option:selected").text();
 		}
 		let endpointObj = {
 			type: endPointdata,
@@ -416,7 +520,7 @@ function getNewsBySources() {
 	$('.js_source_ul').on('click', '.js-search-sites-link', function (event) {
 		event.preventDefault();
 		let endPoint = $('.js_source_ul').data('sites');
-		let inputValue = $(this).text();
+		let inputValue = $(this).data('srcid');
 		let sourceObj = {
 			type: endPoint,
 			value: inputValue
@@ -447,15 +551,34 @@ function generateCategories() {
 // handle generating the sources.
 function generateSources() {
 	let counter = 0;
-	let element = Sources.map(source => {
-		counter = counter + 1;
-		return `<li>
-		<a href="#" name="Source-${counter}" class="search-sites-link js-search-sites-link">${source}</a>
+	let element;
+	let elementList;
+	if(_localStorage){
+    if(handleStorage.get('Source', 'obj')) {
+      element = handleStorage.get('Source', 'obj').map(source => {
+        counter = counter + 1;
+      return `<li>
+		<a href="#" name="Source-${counter}" class="search-sites-link js-search-sites-link" data-srcid="${source.id}">${source.name}</a>
 		</li>`
-	});
-	let elementList = Sources.map(source => {
-		return `<option class="group2-sources-option">${source}</option>`
-	});
+    });
+      elementList =  handleStorage.get('Source', 'obj').map(source => {
+        return `<option class="group2-sources-option" data-srcid="${source.id}">${source.name}</option>`
+      });
+    }else {
+      sourceSites.getSource;
+    }
+  }else{
+    element = Sources.map(source => {
+      counter = counter + 1;
+    return `<li>
+		<a href="#" name="Source-${counter}" class="search-sites-link js-search-sites-link" data-srcid="${source}">${source}</a>
+		</li>`
+  });
+    elementList = Sources.map(source => {
+      return `<option class="group2-sources-option">${source}</option>`
+    });
+  }
+
 	$('.js_source_ul').append(element);
 	$('.js-group2-sources').append(elementList);
 	counter = 0;
@@ -489,6 +612,18 @@ function handleShowUl(){
 	return;
 }
 
+// Check if local storage is available and execute the dependent functions or hide the feature.
+function handlelocalStorageAvailability(){
+  if(_localStorage){
+    chooseDefaultView();
+    return;
+  }else{
+    $('.js_default_view').addClass('remove-display');
+    return;
+  }
+
+}
+
 // Main entry point
 function main() {
 	readNewsClick();
@@ -500,7 +635,7 @@ function main() {
 	getNewsFromDropDown();
 	handleToggleView();
 	openLinkNewTab();
-	chooseDefaultView();
+  handlelocalStorageAvailability();
 	handleShowUl();
 	return;
 }

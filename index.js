@@ -6,7 +6,7 @@ const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-indi
 const filterTopNewsNum = 100;
 const _localStorage = window.localStorage;
 const defaultSearch = 'trump';
-const loaderTime = 800;
+const loaderTime = 1200;
 const apiKey = '93c6b412948740479094f9ace7c8aa27';
 let handleStorage;
 let localStorageHelp;
@@ -491,6 +491,7 @@ function getNewsBySearch() {
 			value: inputVal
 		};
 		headlines.sendConfig(value);
+    $('.js-search-form-text').val('');
 	});
 	return;
 }

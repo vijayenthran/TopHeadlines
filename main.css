@@ -245,10 +245,12 @@ img{
 .search-form-text{
 	text-align: center;
 	border: none;
+  border-radius: 0px;
 	border-bottom:2px solid #3ab4a6;
 	margin-right: 20px;
 	font-size: 1.5em;
 	font-family: 'Quattrocento', serif;
+  margin-bottom: 5px;
 }
 
 .default_view,.pop_up_form_submit{

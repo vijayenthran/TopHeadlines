@@ -21,6 +21,10 @@
 		font-size: 0.9em;
 	}
 
+  .col-2{
+    height: 845px;
+  }
+
 	.pop_up{
 		width: 60%;
 		background-color: white;
@@ -44,7 +48,11 @@
 		margin-bottom: 10px;
 		width: 100%;
 	}
-	.list-options{
+  .col-2{
+    height: 820px;
+    margin-left: 1px;
+  }
+  .list-options{
 		display:block;
 	}
 }

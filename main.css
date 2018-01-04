@@ -51,14 +51,14 @@ h1, .start_text{
 
 .source_ul{
   text-transform: lowercase;
-	height: 490px;
+	height: 525px;
 	overflow-y:auto;
 }
 
 
 .col-2 {
 	width: 75%;
-	height: 825px;
+	height: 860px;
 	/*border: 1px solid #3a93b4;*/
 	vertical-align: top;
 	-webkit-overflow-scrolling: touch;

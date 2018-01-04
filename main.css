@@ -49,9 +49,11 @@ h1{
 
 .grid{
 	width: 100%;
+  height: 80%;
 }
 
 .col-1, .col-2{
+  height: 100%;
 	display:inline-block;
 }
 
@@ -250,11 +252,11 @@ img{
 }
 
 .search-form-text{
-	text-align: center;
+  width: 60%;
+	text-align: left;
 	border: none;
   border-radius: 0px;
-	border-bottom:2px solid #3a93b4;
-	margin-right: 20px;
+  border-bottom: 1px solid #3a93b4;
 	font-size: 1.5em;
 	font-family: 'Quattrocento', serif;
   margin-bottom: 5px;
@@ -274,19 +276,26 @@ img{
 	box-shadow:inset 0 0 5px #000000;
 }
 
-.search-form-button{
-	-webkit-appearance: none;
-	font-size: 1.2em;
-	border-radius: 20px;
-	color:white;
-	background: black;
-	font-family: 'Courgette', cursive;
-}
+/*.search-form-button{*/
+	/*-webkit-appearance: none;*/
+	/*font-size: 1.2em;*/
+	/*border-radius: 20px;*/
+	/*color:white;*/
+	/*background: black;*/
+	/*font-family: 'Courgette', cursive;*/
+/*}*/
 
-.search-form-button:hover{
-	background: gray;
-	transform: translateY(-2px);
-	cursor:pointer;
+/*.search-form-button:hover{*/
+	/*background: gray;*/
+	/*transform: translateY(-2px);*/
+	/*cursor:pointer;*/
+/*}*/
+
+.search_icon{
+  position: relative;
+  top: 5px;
+  width: 30px;
+  height: auto;
 }
 
 .default_view{

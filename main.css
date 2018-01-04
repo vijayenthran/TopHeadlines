@@ -7,7 +7,7 @@
 }
 
 .grid-section{
-	margin-top:5px;
+	margin-top:10px;
 }
 
 .read_news{
@@ -15,11 +15,14 @@
 	font-size: 1.5em;
 	font-family: 'Merriweather', serif;
 	text-transform: uppercase;
-	border-radius: 45px;
+	border-radius: 20px;
 	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 	transition: all 0.3s ease 0s;
 	cursor: pointer;
-  border: 1px solid #0b7aa4;
+  color: #637f7f;
+  background-color: #d7e8ee;
+  padding: 10px;
+  /*border: 1px solid #0b7aa4;*/
 }
 
 .read_news:hover{
@@ -33,10 +36,8 @@ h1, .start_text{
 	font-family: 'Merriweather', serif;
 }
 
-.grid, .logo{
-	width: 90%;
-	margin-right: auto;
-	margin-left:auto;
+.grid{
+	width: 100%;
 }
 
 .col-1, .col-2{
@@ -50,19 +51,21 @@ h1, .start_text{
 
 .source_ul{
   text-transform: lowercase;
-	height: 465px;
+	height: 490px;
 	overflow-y:auto;
 }
 
 
 .col-2 {
 	width: 75%;
-	height: 780px;
-	border: 1px solid #3a93b4;
+	height: 825px;
+	/*border: 1px solid #3a93b4;*/
 	vertical-align: top;
 	-webkit-overflow-scrolling: touch;
 	border-radius: 3px;
 	overflow: scroll;
+  margin-left: -4px;
+  background-color: #f4fdff;
 }
 
 .list-options{
@@ -72,7 +75,7 @@ h1, .start_text{
 }
 
 .col-1{
-	width: 24%;
+	width: 25%;
 }
 
 .menu {
@@ -80,8 +83,8 @@ h1, .start_text{
 	text-decoration: none;
 	width: 100%;
 	height: 100%;
-	color: #ffffff;
-	background: #3a93b4;
+	color: #47555c;
+	background: #d7e8ee;
 	font-family: Raleway, sans-serif;
 	border-radius: 3px;
 }
@@ -244,6 +247,7 @@ img{
 	font-size: 1.5em;
 	font-family: 'Quattrocento', serif;
   margin-bottom: 5px;
+  background-color: #f4fdff;
 }
 
 .default_view,.pop_up_form_submit{
@@ -336,13 +340,13 @@ img{
 }
 
 .categories_ul, .source_ul{
-	background: #61656d;
+	background: #657d85;
   font-weight: bold;
 }
 
 .menu_categories_title:hover, .menu_Sources_title:hover{
 	cursor:pointer;
-	color: #d8f3f0;
+	color: black;
 }
 
 .categories_ul li, .source_ul li{
@@ -459,9 +463,21 @@ img{
 
 .logo_img{
   width: 60px;
-  height: auto;
-  border-radius: 20px;
-  border-bottom:1px solid #0b7aa4;
+  float: left;
+  height: 100%;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.logo:after{
+  clear: both;
+  display: table;
+  content: "";
+}
+
+.logo_title{
+  position: relative;
+  bottom: -10px;
 }
 
 .visiblity_hidden {

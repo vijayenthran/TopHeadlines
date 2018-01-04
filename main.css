@@ -4,10 +4,16 @@
 
 .newspaperImage{
 	text-align: center;
+  background-color: #f4fdff;
 }
 
 .grid-section{
 	margin-top:10px;
+}
+
+.main_img{
+  margin-top: 0px;
+border-radius: 30px;
 }
 
 .read_news{
@@ -22,6 +28,7 @@
   color: #637f7f;
   background-color: #d7e8ee;
   padding: 10px;
+  margin-bottom: 100px;
   /*border: 1px solid #0b7aa4;*/
 }
 
@@ -34,6 +41,10 @@
 h1, .start_text{
 	font-size: 1.7em;
 	font-family: 'Merriweather', serif;
+}
+
+h1{
+  margin-top: 0px;
 }
 
 .grid{

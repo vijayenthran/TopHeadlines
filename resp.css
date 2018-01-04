@@ -16,6 +16,7 @@
 		width: 100%;
 		height: auto;
 	}
+
 	.menu {
 		font-size: 0.9em;
 		text-decoration: none;
@@ -54,6 +55,13 @@
 	}
 }
 
+@media screen and (max-width:750px) {
+  .loader {
+    position: relative;
+    top: 31px;
+    left: 40%;
+  }
+}
 @media screen and (max-width:500px) {
 	.list_view_image{
 		width: 100px;
@@ -72,7 +80,7 @@
 	}
 	.search-form-text{
 		border: none;
-		border-bottom:1px solid #3ab4a6;
+		border-bottom:2px solid #3ab4a6;
 		margin-right: 5px;
 		font-size: 1em;
 		font-family: 'Quattrocento', serif;
@@ -110,6 +118,10 @@
 	.img_description {
 		font-size: 0.9em;
 	}
+  .loader {
+    position: relative;
+    top: -8px;
+  }
 }
 
 

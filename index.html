@@ -14,10 +14,14 @@
 			<header><h1>Read Top Headlines</h1></header>
 			<img src="./files/Newspaper.png" class="main_img" alt="A news paper image">
 			<div class="read_news_Button">
-				<input type="button" name="Click-to-Read-Headlines" value="Click to Read" class="read_news js_read_news">
+        <p class="start_text">Keep yourSelf updated with Top News Headlines, Click the Button to begin</p>
+				<input type="button" name="Click-to-Read-Headlines" value="Begin-Reading" class="read_news js_read_news">
 			</div>
 		</section>
 		<section class="grid-section js-grid-section remove-display">
+      <section class="logo">
+        <img src="./files/Newspaper.png" class="logo_img" alt="A news paper image - Represented as logo in Search Page">
+      </section>
 			<section class="grid">
 				<section class="col-1 select-search-content">
 					<aside class="menu">
@@ -32,7 +36,7 @@
 							</li>
 							<li class="menu_Sources">
 								<li class="title menu_Sources_title js_menu_Sources_title">Sources
-									<div class='sign_source js_sign_source spin'>+</div>
+									<div class='sign_source js_sign_source spin' aria-hidden="true">+</div>
 								</li>
 								<ul class="source_ul js_source_ul" data-sites="sources">
 								</ul>
@@ -59,11 +63,12 @@
 						</fieldset>
 					</form>
 					<div class="toggle-Display js-toggle-Display">
+            <div class="loader js_loader visiblity_hidden" aria-hidden="true"></div>
 						<div class="toggle-Display_default"><input type="button" name="defaultView" value="ChooseDefaultView" class="default_view js_default_view"></div>
 						<div class="toggle-Display_list"><span class="tool_tip_list_text remove-display">List View</span><span class="view_List js_view_List remove-display"><img src="files/list.png"/></span></div>
 						<div class="toggle-Display_grid"><span class="tool_tip_grid_text">Grid View</span><span class="view_Grid js_view_Grid"><img src="files/Thumbnail.png"/></span></div>
 					</div>
-					<div class="loader js_loader visiblity_hidden" aria-hidden="true"></div>
+
 					<article class="no_headlines remove-display">
 						<p>Sorry, There are no Search Results, Please try Different Search</p>
 					</article>

@@ -81,27 +81,17 @@
 		font-family: 'Merriweather', serif;
 	}
 	.search-form-text{
-		border: none;
-		border-bottom:2px solid #3ab4a6;
-		margin-right: 5px;
 		font-size: 1em;
 		font-family: 'Quattrocento', serif;
 	}
 
-	.search-form-button{
-		-webkit-appearance: none;
-		font-size: 0.9em;
-		border-radius: 20px;
-		color:white;
-		background: black;
-		font-family: 'Courgette', cursive;
-	}
+  .search_icon{
+    position: relative;
+    top: 5px;
+    width: 20px;
+    height: auto;
+  }
 
-	.search-form-button:hover{
-		background: gray;
-		transform: translateY(-2px);
-		cursor:pointer;
-	}
 	.toggle-Display{
 		text-align: center;
 		width: 100%;
@@ -166,4 +156,151 @@
 	.img_description {
 		font-size: 0.9em;
 	}
+}
+
+
+@media screen and (max-height:500px) {
+  .outer_Overlay{
+    padding-top: 15px;
+  }
+  .pop_up{
+    font-size: 0.9em;
+  }
+}
+
+@media screen and (min-height:375px) {
+  .newspaperImage{
+    height: 870px;
+  }
+  .col-2{
+    height: 361px;
+  }
+  .source_ul{
+    height: 44px;
+  }
+}
+
+@media screen and (min-height:412px) {
+
+  .newspaperImage{
+    height: 870px;
+  }
+  .col-2{
+    height: 397px;
+  }
+  .source_ul{
+    height: 78px;
+  }
+}
+
+@media screen and (min-height:414px) {
+
+  .newspaperImage{
+    height: 870px;
+  }
+  .col-2{
+    height: 397px;
+  }
+  .source_ul{
+    height: 78px;
+  }
+}
+
+@media screen and (min-height:640px) {
+  .col-2{
+    height: 592px;
+  }
+  .newspaperImage{
+    height: 650px;
+  }
+}
+
+@media screen and (min-height:667px) {
+  .col-2{
+    height: 619px;
+  }
+  .newspaperImage{
+    height: 650px;
+  }
+}
+
+@media screen and (min-height:732px) {
+  .col-2{
+    height: 683px;
+  }
+  .newspaperImage{
+    height: 722px;
+  }
+}
+
+@media screen and (min-height:736px) {
+  .col-2{
+    height: 685px;
+  }
+  .newspaperImage{
+    height: 722px;
+  }
+}
+
+@media screen and (min-height:768px) {
+  .col-2, .newspaperImage{
+    height: 750px;
+  }
+
+  .source_ul{
+    height:415px;
+  }
+}
+
+
+@media screen and (min-height:812px) {
+  .col-2{
+    height: 758px;
+  }
+
+  .newspaperImage{
+    height: 798px;
+  }
+}
+
+
+@media screen and (min-height:870px) {
+  .col-2, .newspaperImage{
+    height: 860px;
+  }
+
+  .source_ul{
+    height:525px;
+  }
+}
+
+@media screen and (min-height:930px) {
+  .col-2, .newspaperImage{
+    height: 897px;
+  }
+
+  .source_ul{
+    height:561px;
+  }
+}
+
+
+@media screen and (min-height:1024px) {
+  .col-2, .newspaperImage{
+    height: 1003px;
+  }
+
+  .source_ul{
+    height:683px;
+  }
+}
+
+@media screen and (min-height:1366px) {
+  .col-2, .newspaperImage{
+    height: 1350px;
+  }
+
+  .source_ul{
+    height:1015px;
+  }
 }

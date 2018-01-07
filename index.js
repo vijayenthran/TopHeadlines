@@ -1,7 +1,7 @@
 'use strict';
 
 const Categories = ['business', 'gaming', 'health-and-medical', 'music', 'sport', 'technology'];
-const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click to View From Source Button" in List View`;
+const noDescriptionText = `Sorry, There is no Description For this News Article, Click on Thumbnail Image" in Thumbnail view, Or "Click On this description" in List View`;
 const Sources = ['espn', 'espn-cric-info', 'bbc-news', 'cnn', 'the-times-of-india', 'techcrunch', 'nbc-news', 'abc-news', 'al-jazeera-english', 'the-new-york-times', 'the-wall-street-journal', 'usa-today', 'crypto-coins-news', 'football-italia', 'four-four-two', 'hacker-news', 'msnbc', 'nhl-news', 'reuters', 'the-economist', 'polygon', 'national-geographic', 'mtv-news'];
 const filterTopNewsNum = 100;
 const _localStorage = window.localStorage;
@@ -211,6 +211,7 @@ let headlines = (function () {
     		);
     	$('.js_displayNewsList').append(element);
       handleLazyLoadList();
+      return;
     }
 
 	// handle to display the results in Thumbnail format
@@ -237,17 +238,17 @@ let headlines = (function () {
        $('.js_displayNewsGrid').find('.thumbnailWrapper').removeClass('thumbnailbackground');
      });
     });
-
+    return;
   }
 
   function handleLazyLoadList(){
-    $('.js_displayNewsList').find('.list_view_image').each(function(){
+    $('.list_view_image').each(function(){
       $(this).attr('src',  $(this).attr('data-srcimg'));
       $(this).on('load', function(){
         $('.js_displayNewsList').find('.list_view_image').removeClass('listbackground');
       });
     });
-
+   return;
   }
 
     // handle success of Ajax Call
@@ -302,32 +303,31 @@ let headlines = (function () {
       return;
     }
 
-    // handle the ajax call
-    let getHeadlines = function (manipulatedconfig) {
-    	cleanUp();
-    	return $.ajax(manipulatedconfig)
-     .then(function(successres){
-      showLoader();
-      return successres;
-    })
-     .then(function (res) {
-      handleSuccess(res, manipulatedconfig);
-      return;
-    })
-     .then(function(){
-       return new Promise(function(resolve){
-         setTimeout(function(){
-           resolve(hideLoader());
-         }, loaderTime)
-       });
-     })
-     .catch(function (err) {
-       handleErrorState();
-      handleFailure(err);
-    })
-   };
+  let getHeadlines = function (manipulatedconfig) {
+    cleanUp();
+    $.ajax({
+      type: manipulatedconfig.method,
+      url: manipulatedconfig.url,
+      data: manipulatedconfig.data,
+      beforeSend: function(){
+        showLoader();
+      },
+      complete: function(){
+        hideLoader();
+    },
+      success: function(response) {
+        // console.log(response);
+        handleSuccess(response, manipulatedconfig);
+      },
+      error: function(err) {
+        handleErrorState();
+        handleFailure(err);
+      }
+    });
+  };
+
    return {
-     sendConfig: manipulateConfig,
+     sendConfig: manipulateConfig
    }
  })();
 

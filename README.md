@@ -1,16 +1,19 @@
 # TopHeadlines
 
+## Visit
+Please click on the following link to Visit [TopHeadlinesApp](https://vijayenthran.github.io/TopHeadlines/)
+
 ## ScreenShots
 
 ### Entry Page of the APP
-
-<img width="1436" alt="screen shot 2018-01-01 at 8 15 04 pm" src="https://user-images.githubusercontent.com/17556461/34474200-bd971bfe-ef30-11e7-91e6-ba30f31afb13.png">
+![screen shot 2018-01-07 at 1 33 55 pm](https://user-images.githubusercontent.com/17556461/34654379-a5671ede-f3af-11e7-9c45-37d1f4f61430.png)
 
 ### List View Of the APP
-<img width="1436" alt="screen shot 2018-01-01 at 8 15 33 pm" src="https://user-images.githubusercontent.com/17556461/34474202-bf409322-ef30-11e7-8d58-4a6061e187ff.png">
+![screen shot 2018-01-07 at 1 34 14 pm](https://user-images.githubusercontent.com/17556461/34654381-a8f7e07e-f3af-11e7-946f-324ab621e42d.png)
 
 ### Thumbnail View of the APP
-<img width="1437" alt="screen shot 2018-01-01 at 8 16 00 pm" src="https://user-images.githubusercontent.com/17556461/34474204-c14d14d8-ef30-11e7-9450-5c44c414295a.png">
+![screen shot 2018-01-07 at 1 34 37 pm](https://user-images.githubusercontent.com/17556461/34654388-b1c93a2c-f3af-11e7-89c2-012d0c89a0fc.png)
+
 
 ## App Summary
 
@@ -29,6 +32,3 @@
 2. CSS       
 3. JavaScript      
 4. jQuery        
-
-## Visit
-Please click on the following link to Visit [TopHeadlinesApp](https://vijayenthran.github.io/TopHeadlines/)

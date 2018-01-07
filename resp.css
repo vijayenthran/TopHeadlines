@@ -112,6 +112,9 @@
     position: relative;
     top: -8px;
   }
+  .outer_Overlay{
+    padding-top: 100px;
+  }
 }
 
 

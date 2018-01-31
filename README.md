@@ -17,13 +17,13 @@ Please click on the following link to Visit [TopHeadlinesApp](https://vijayenthr
 
 ## App Summary
 
-1. Main Goal of the app, is to read the top News headlines.        
-2. Initally, the user is presented with the Entry page, When the User Clicks the "Click to Read" Button the main app Slides up. 
+1. Main Goal of the app, is to keep yourself upto date with top News headlines.        
+2. Initally, the user is presented with the Entry page, When the User Clicks the "Begin Reading" Button the main app slides up. 
 3. The user is presented with menu on the left, which displays the Source and Categories options.     
-4 .When, the options are clicked the news displayed in the Right Coloumn, Changes according to the selected option.      
-5. In Addition, the User can also search for a news EX : "New Year 2018".            
-6. The User is presented with an option to select the default view that he/she likes while reading the news. The view will be preserved(with the help of local storage), irresepective of the page refresh.      
-7. In List View, when the news description is clicked, the original website, that provides a detailed description of the article can be seen.        
+4. When a option is selected the news displayed, the application updates the headlines accordingly.      
+5. In addition, the user can also search for some news EX : "New Year 2018".            
+6. The user is presented with an option to select the default view that he/she likes while reading the news. The view will be preserved(with the help of local storage), irresepective of the page refresh.      
+7. In List View, when the news description is clicked, the source site, that provides a detailed description of the article can be seen.        
 8. In thubmnail view, hovering over the thumbnail, provides desctiption about the news article. To get the detail news, Click on the thumbmail.        
 
 ## Technology Used

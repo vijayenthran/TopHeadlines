@@ -1,5 +1,8 @@
 # TopHeadlines
 
+## :boom: ATTENTION :boom:
+The app only loads completely on localhost. Due to api restrictions. Please visit https://newsapi.org/pricing
+
 ## Visit
 Please click on the following link to Visit [TopHeadlinesApp](https://vijayenthran.github.io/TopHeadlines/)
 

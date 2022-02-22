@@ -68,7 +68,7 @@ if(_localStorage){
 // handle Source Sites
 let sourceSites = (function(){
   const config = {
-    url: 'https://newsapi.org/v2/sources',
+    url: 'https://newsapi.org/v2/top-headlines/sources',
     data: {
       apikey: apiKey
     },
